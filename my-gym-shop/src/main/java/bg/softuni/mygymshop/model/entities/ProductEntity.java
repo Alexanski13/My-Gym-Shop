@@ -18,6 +18,9 @@ public class ProductEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String description;
 
+    @ManyToOne
+    private CategoryEntity category;
+
     public ProductEntity() {
     }
 

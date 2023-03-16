@@ -19,10 +19,10 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "first_name")
     private String firstName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "last_name")
     private String lastName;
 
     @Column(nullable = false)
@@ -38,10 +38,9 @@ public class UserEntity {
         this.roles = new HashSet<>();
     }
 
-    public UserEntity(Long id, String username, String password, String firstName, String lastName, Integer age, String email) {
+    public UserEntity(String username, String password, String firstName, String lastName, String email, Integer age) {
         this();
 
-        this.id = id;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
