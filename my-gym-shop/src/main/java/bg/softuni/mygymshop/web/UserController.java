@@ -1,13 +1,16 @@
 package bg.softuni.mygymshop.web;
 
 import bg.softuni.mygymshop.model.dtos.UserRegistrationDTO;
-import bg.softuni.mygymshop.model.entities.UserEntity;
-import bg.softuni.mygymshop.model.views.UserProfileView;
 import bg.softuni.mygymshop.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextHolderStrategy;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,17 +18,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.security.Principal;
-
 @Controller
 @RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
 
+    private final SecurityContextRepository securityContextRepository;
+
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, SecurityContextRepository securityContextRepository) {
         this.userService = userService;
+        this.securityContextRepository = securityContextRepository;
     }
 
     @ModelAttribute("userRegistrationDTO")
@@ -39,19 +43,22 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String doRegister(@Valid UserRegistrationDTO userRegistrationDTO,
-                             BindingResult bindingResult,
-                             RedirectAttributes redirectAttributes) {
+    public String doRegister(UserRegistrationDTO userRegistrationDTO,
+                             HttpServletRequest request,
+                             HttpServletResponse response) {
         System.out.println(userRegistrationDTO.toString());
 
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("userRegistrationDTO", userRegistrationDTO);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegistrationDTO", bindingResult);
+        userService.registerUser(userRegistrationDTO, successfulAuth -> {
 
-            return "redirect:/register";
-        }
+            SecurityContextHolderStrategy strategy = SecurityContextHolder.getContextHolderStrategy();
 
-        this.userService.register(userRegistrationDTO);
+            SecurityContext context = strategy.createEmptyContext();
+            context.setAuthentication(successfulAuth);
+
+            strategy.setContext(context);
+
+            securityContextRepository.saveContext(context, request, response);
+        });
 
         return "redirect:/users/login";
     }

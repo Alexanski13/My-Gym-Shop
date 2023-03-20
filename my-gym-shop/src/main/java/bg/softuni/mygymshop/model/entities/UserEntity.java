@@ -2,7 +2,9 @@ package bg.softuni.mygymshop.model.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,10 +34,10 @@ public class UserEntity {
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<RoleEntity> roles;
+    private List<RoleEntity> roles;
 
     public UserEntity() {
-        this.roles = new HashSet<>();
+        this.roles = new ArrayList<>();
     }
 
     public UserEntity(String username, String password, String firstName, String lastName, String email, Integer age) {
@@ -112,11 +114,11 @@ public class UserEntity {
         return this;
     }
 
-    public Set<RoleEntity> getRoles() {
+    public List<RoleEntity> getRoles() {
         return roles;
     }
 
-    public UserEntity setRoles(Set<RoleEntity> roles) {
+    public UserEntity setRoles(List<RoleEntity> roles) {
         this.roles = roles;
         return this;
     }

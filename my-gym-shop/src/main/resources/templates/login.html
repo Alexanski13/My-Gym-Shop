@@ -1,43 +1,39 @@
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
-
-    <h1 class="border-bottom mb-5">Login</h1>
-    <div class="d-flex justify-content-center">
-
-        <div class="row g-3 align-items-center">
-            <form
-                    th:action="@{/users/login}"
-                    method="post">
-                <div>
-                    <div class="col-auto">
-                        <label for="inputUsername" class="col-form-label ">Username</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="text"
-                               name="username"
-                               required minlength="4" maxlength="20"
-                               id="inputUsername"
-                               class="form-control"
-                               aria-describedby="usernameHelpInline">
-                    </div>
-                </div>
-
-                <div>
-                    <div class="col-auto">
-                        <label for="inputPassword" class="col-form-label ">Password</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="password"
-                               name="password"
-                               required minlength="4" maxlength="20"
-                               id="inputPassword" class="form-control"
-                               aria-describedby="passwordHelpInline">
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-center mt-2">
-                    <button class="btn btn-primary btn-block w-50" type="submit">Login</button>
-                </div>
-            </form>
+<div class="container">
+    <h2 class="text-center text-white">Login</h2>
+    <form
+            th:method="post"
+            th:action="@{/users/login}"
+            class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+        <div class="form-group">
+            <label for="username" class="text-white font-weight-bold">Username</label>
+            <input id="username"
+                   name="username"
+                   th:value="${username}"
+                   type="text" min="2" max="50"
+                   class="form-control"
+                   placeholder="Username"/>
         </div>
-    </div>
+        <div class="form-group">
+            <label for="password" class="text-white font-weight-bold">Password</label>
+            <input
+                    id="password"
+                    name="password"
+                    type="password" min="2"
+                    max="20" class="form-control"
+                    placeholder="Password"/>
+
+        </div>
+
+        <p class="errors alert alert-danger" th:if="${bad_credentials}">
+            Invalid username or password.
+        </p>
+
+        <div class="row">
+            <div class="col col-md-4">
+                <div class="button-holder d-flex">
+                    <input type="submit" class="btn btn-info btn-lg" value="Login"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

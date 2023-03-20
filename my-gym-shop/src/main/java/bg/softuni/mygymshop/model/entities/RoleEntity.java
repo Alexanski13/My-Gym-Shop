@@ -1,6 +1,6 @@
 package bg.softuni.mygymshop.model.entities;
 
-import bg.softuni.mygymshop.model.enums.RoleName;
+import bg.softuni.mygymshop.model.enums.RoleType;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,7 +13,7 @@ public class RoleEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(unique = true)
-    private RoleName name;
+    private RoleType role;
 
     public RoleEntity() {
     }
@@ -27,12 +27,12 @@ public class RoleEntity {
         return this;
     }
 
-    public RoleName getName() {
-        return name;
+    public RoleType getRole() {
+        return role;
     }
 
-    public RoleEntity setName(RoleName name) {
-        this.name = name;
+    public RoleEntity setRole(RoleType name) {
+        this.role = name;
         return this;
     }
 }
