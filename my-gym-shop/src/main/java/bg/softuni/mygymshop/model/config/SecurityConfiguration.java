@@ -36,22 +36,19 @@ public class SecurityConfiguration {
                 // allow access to all static files (images, CSS, js)
                         requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().
                 // the URL-s below are available for all users - logged in and anonymous
-                        requestMatchers("/", "/users/login", "/users/register", "/users/login-error").permitAll().
-                // only for moderators
-                        requestMatchers("/pages/moderators").hasRole(RoleType.MODERATOR.name()).
+                        requestMatchers("/", "/users/login", "/users/register").permitAll().
                 // only for admins
                         requestMatchers("/pages/admins").hasRole(RoleType.ADMIN.name()).
                 anyRequest().authenticated().
                 and().
                 // configure login with HTML form
                         formLogin().
-                loginPage("/users/login").
+                loginPage("/users/login").permitAll().
                 // the names of the user name, password input fields in the custom login form
                         usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY).
                 passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY).
                 // where do we go after login
-                        defaultSuccessUrl("/").//use true argument if you always want to go there, otherwise go to previous page
-                failureForwardUrl("/users/login-error").
+                        defaultSuccessUrl("/index").//use true argument if you always want to go there, otherwise go to previous page
                 and().logout().//configure logout
                 logoutUrl("/users/logout").
                 logoutSuccessUrl("/").//go to homepage after logout

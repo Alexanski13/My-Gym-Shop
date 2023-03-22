@@ -1,5 +1,5 @@
 package bg.softuni.mygymshop.model.enums;
 
-public enum CategoryType {
+public enum ProductCategoryType {
     PROTEIN, CREATINE, VITAMIN
 }

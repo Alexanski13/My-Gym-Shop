@@ -1,16 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<div class="container">
-    <h2 class="text-center text-white">Welcome to home page</h2>
+<head th:replace="~{fragments/head::head}"></head>
 
-    <th:block sec:authorize="isAuthenticated()">
-        <p>hello there</p>
-    </th:block>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}">
+  Navbar
+</div>
+
+<div class="container">
+  <h2 class="text-center text-white">Welcome to home page</h2>
+
+  <th:block sec:authorize="isAuthenticated()">
+    <h3 class="text-center text-white" th:text="${fullName}"></h3>
+  </th:block>
 
 </div>
+
+<div>
+  <footer></footer>
+</div>
+</body>
 </html>

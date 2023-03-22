@@ -1,6 +1,6 @@
 package bg.softuni.mygymshop.model.entities;
 
-import bg.softuni.mygymshop.model.enums.CategoryType;
+import bg.softuni.mygymshop.model.enums.ProductCategoryType;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,7 +13,7 @@ public class CategoryEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(unique = true)
-    private CategoryType type;
+    private ProductCategoryType type;
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -30,11 +30,11 @@ public class CategoryEntity {
         return this;
     }
 
-    public CategoryType getType() {
+    public ProductCategoryType getType() {
         return type;
     }
 
-    public CategoryEntity setType(CategoryType type) {
+    public CategoryEntity setType(ProductCategoryType type) {
         this.type = type;
         return this;
     }
