@@ -32,8 +32,6 @@ public class UserRegistrationDTO {
     @Size(min = 5, max = 20)
     private String confirmPassword;
 
-    public UserRegistrationDTO() {}
-
     public String getUsername() {
         return username;
     }

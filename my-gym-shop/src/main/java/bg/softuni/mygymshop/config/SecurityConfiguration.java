@@ -1,10 +1,13 @@
 package bg.softuni.mygymshop.model.config;
 
 import bg.softuni.mygymshop.model.enums.RoleType;
+import bg.softuni.mygymshop.repository.UserRepository;
+import bg.softuni.mygymshop.service.ApplicationUserDetailsService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -43,12 +46,12 @@ public class SecurityConfiguration {
                 and().
                 // configure login with HTML form
                         formLogin().
-                loginPage("/users/login").permitAll().
+                loginPage("/users/login").
                 // the names of the user name, password input fields in the custom login form
                         usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY).
                 passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY).
                 // where do we go after login
-                        defaultSuccessUrl("/index").//use true argument if you always want to go there, otherwise go to previous page
+                        defaultSuccessUrl("/").//use true argument if you always want to go there, otherwise go to previous page
                 and().logout().//configure logout
                 logoutUrl("/users/logout").
                 logoutSuccessUrl("/").//go to homepage after logout
@@ -60,6 +63,11 @@ public class SecurityConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService(UserRepository userRepository) {
+        return new ApplicationUserDetailsService(userRepository);
     }
 
     @Bean
