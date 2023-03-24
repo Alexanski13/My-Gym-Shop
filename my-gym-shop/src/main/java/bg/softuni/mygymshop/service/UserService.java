@@ -8,7 +8,6 @@ import bg.softuni.mygymshop.repository.UserRepository;
 import bg.softuni.mygymshop.repository.UserRoleRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,14 +27,19 @@ public class UserService {
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
 
+    private final EmailService emailService;
+
     @Autowired
     public UserService(UserRepository userRepository,
                        UserRoleRepository userRoleRepository,
-                       UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+                       UserDetailsService userDetailsService,
+                       PasswordEncoder passwordEncoder,
+                       EmailService emailService) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     public void registerUser(UserRegistrationDTO userRegistrationDTO,
@@ -49,15 +53,18 @@ public class UserService {
 
         userRepository.save(userEntity);
 
-        var userDetails = userDetailsService.loadUserByUsername(userRegistrationDTO.getEmail());
+        emailService.sendRegistrationEmail(userEntity.getEmail(),
+                userEntity.getFirstName() + " " + userEntity.getLastName());
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                userDetails,
-                userDetails.getPassword(),
-                userDetails.getAuthorities()
-        );
-
-        successfulLoginProcessor.accept(authentication);
+//        var userDetails = userDetailsService.loadUserByUsername(userRegistrationDTO.getEmail());
+//
+//        Authentication authentication = new UsernamePasswordAuthenticationToken(
+//                userDetails,
+//                userDetails.getPassword(),
+//                userDetails.getAuthorities()
+//        );
+//
+//        successfulLoginProcessor.accept(authentication);
 
     }
 
