@@ -16,7 +16,7 @@ public class CreateProductDTO {
   private String name;
 
   @NotNull
-  private ProductCategoryType type;
+  private String type;
 
   @Positive
   @NotNull
@@ -37,11 +37,11 @@ public class CreateProductDTO {
     return this;
   }
 
-  public ProductCategoryType getType() {
+  public String getType() {
     return type;
   }
 
-  public CreateProductDTO setType(ProductCategoryType type) {
+  public CreateProductDTO setType(String type) {
     this.type = type;
     return this;
   }

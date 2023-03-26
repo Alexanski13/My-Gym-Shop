@@ -57,10 +57,11 @@ public class ProductService {
 
     private ProductDetailsViewDTO map(ProductEntity productEntity) {
         return new ProductDetailsViewDTO().
-                setId(productEntity.getId()).
+                setName(productEntity.getName()).
+                setProductId(productEntity.getProductId()).
                 setImageUrl(productEntity.getImageUrl()).
                 setDescription(productEntity.getDescription()).
-                setType(productEntity.getType());
+                setType(productEntity.getCategory().getType());
     }
 
     public boolean addProduct(CreateProductDTO createProductDTO) {
@@ -74,7 +75,7 @@ public class ProductService {
         ProductEntity product = new ProductEntity();
         product.setName(createProductDTO.getName());
         product.setDescription(createProductDTO.getDescription());
-        product.setType(createProductDTO.getType());
+//        product.setCategory(createProductDTO.getType());
         product.setPrice(createProductDTO.getPrice());
         product.setImageUrl(createProductDTO.getImageUrl());
 

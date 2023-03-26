@@ -6,19 +6,34 @@ import java.math.BigDecimal;
 
 public class ProductDetailsViewDTO {
 
-    private Long id;
+    private Long productId;
+
+    private String name;
     private String imageUrl;
     private ProductCategoryType type;
     private BigDecimal price;
 
     private String description;
 
-    public Long getId() {
-        return id;
+    public String offerSummary() {
+        return type + " " + price;
     }
 
-    public ProductDetailsViewDTO setId(Long id) {
-        this.id = id;
+    public String getName() {
+        return name;
+    }
+
+    public ProductDetailsViewDTO setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public ProductDetailsViewDTO setProductId(Long productId) {
+        this.productId = productId;
         return this;
     }
 
