@@ -1,18 +1,14 @@
 package bg.softuni.mygymshop.web;
 
 import bg.softuni.mygymshop.model.dtos.CreateProductDTO;
-import bg.softuni.mygymshop.repository.ProductCategoryRepository;
-import bg.softuni.mygymshop.service.ApplicationUserDetailsService;
 import bg.softuni.mygymshop.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -23,11 +19,9 @@ public class ProductController {
 
     private final ProductService productService;
 
-    private final ProductCategoryRepository productCategoryRepository;
 
-    public ProductController(ProductService productService, ProductCategoryRepository productCategoryRepository) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
-        this.productCategoryRepository = productCategoryRepository;
     }
 
 //    @GetMapping("/{id}")
@@ -50,7 +44,7 @@ public class ProductController {
         return "products";
     }
 
-    @GetMapping("/products/add")
+    @GetMapping("/add")
     public String addProduct(Model model) {
         if (!model.containsAttribute("addProductModel")) {
             model.addAttribute("addProductModel", new CreateProductDTO());
@@ -59,11 +53,10 @@ public class ProductController {
         return "product-add";
     }
 
-    @PostMapping("/products/add")
-    public String addOffer(@Valid CreateProductDTO addProductModel,
-                           BindingResult bindingResult,
-                           RedirectAttributes redirectAttributes,
-                           @AuthenticationPrincipal ApplicationUserDetailsService userDetails) {
+    @PostMapping("/add")
+    public String addProduct(@Valid CreateProductDTO addProductModel,
+                             BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addProductModel", addProductModel);

@@ -1,7 +1,6 @@
 package bg.softuni.mygymshop.model.dtos;
 
 
-import bg.softuni.mygymshop.model.enums.ProductCategoryType;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
