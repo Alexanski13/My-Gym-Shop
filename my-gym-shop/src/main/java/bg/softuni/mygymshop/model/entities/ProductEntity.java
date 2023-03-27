@@ -1,5 +1,6 @@
 package bg.softuni.mygymshop.model.entities;
 
+import bg.softuni.mygymshop.model.enums.ProductCategoryType;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -21,8 +22,9 @@ public class ProductEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String description;
 
-    @ManyToOne
-    private CategoryEntity category;
+    @Enumerated(EnumType.STRING)
+    @Column(unique = true)
+    private ProductCategoryType type;
 
     private String imageUrl;
 
@@ -57,12 +59,12 @@ public class ProductEntity {
         return this;
     }
 
-    public CategoryEntity getCategory() {
-        return category;
+    public ProductCategoryType getType() {
+        return type;
     }
 
-    public ProductEntity setCategory(CategoryEntity category) {
-        this.category = category;
+    public ProductEntity setType(ProductCategoryType type) {
+        this.type = type;
         return this;
     }
 

@@ -45,7 +45,7 @@ public class ProductController {
     }
 
     @GetMapping("/add")
-    public String addProduct(Model model) {
+    public String showAddProductForm(Model model) {
         if (!model.containsAttribute("addProductModel")) {
             model.addAttribute("addProductModel", new CreateProductDTO());
         }
@@ -54,18 +54,18 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@Valid CreateProductDTO addProductModel,
-                             BindingResult bindingResult,
-                             RedirectAttributes redirectAttributes) {
+    public String addProduct(@Valid CreateProductDTO productDTO,
+                                     BindingResult bindingResult,
+                                     RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("addProductModel", addProductModel);
+            redirectAttributes.addFlashAttribute("addProductModel", productDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addProductModel",
                     bindingResult);
             return "redirect:/products/add";
         }
 
-        productService.addProduct(addProductModel);
+        productService.addProduct(productDTO);
 
         return "redirect:/products/all";
     }

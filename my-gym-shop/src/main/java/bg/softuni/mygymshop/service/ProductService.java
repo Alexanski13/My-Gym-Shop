@@ -61,27 +61,30 @@ public class ProductService {
                 setProductId(productEntity.getProductId()).
                 setImageUrl(productEntity.getImageUrl()).
                 setDescription(productEntity.getDescription()).
-                setType(productEntity.getCategory().getType());
+                setType(productEntity.getType());
     }
 
-    public boolean addProduct(CreateProductDTO createProductDTO) {
-        Optional<ProductEntity> byName =
-                this.productRepository.findByName(createProductDTO.getName());
+    public CreateProductDTO addProduct(CreateProductDTO createProductDTO) {
+        ProductEntity product = mapToProduct(createProductDTO);
+        ProductEntity savedProduct = productRepository.save(product);
+        return mapToProductDTO(savedProduct);
+    }
 
-        if (byName.isPresent()) {
-            return false;
-        }
+    public ProductEntity mapToProduct(CreateProductDTO productDTO) {
+        return new ProductEntity()
+                .setName(productDTO.getName())
+                .setPrice(productDTO.getPrice())
+                .setImageUrl(productDTO.getImageUrl())
+                .setDescription(productDTO.getDescription())
+                .setType(productDTO.getType());
+    }
 
-        ProductEntity product = new ProductEntity();
-        product.setName(createProductDTO.getName());
-        product.setDescription(createProductDTO.getDescription());
-//        product.setCategory(createProductDTO.getType());
-        product.setPrice(createProductDTO.getPrice());
-        product.setImageUrl(createProductDTO.getImageUrl());
-
-
-        productRepository.save(product);
-
-        return true;
+    public CreateProductDTO mapToProductDTO(ProductEntity product) {
+        return new CreateProductDTO()
+                .setName(product.getName())
+                .setPrice(product.getPrice())
+                .setImageUrl(product.getImageUrl())
+                .setDescription(product.getDescription())
+                .setType(product.getType());
     }
 }

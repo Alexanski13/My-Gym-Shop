@@ -1,21 +1,18 @@
 package bg.softuni.mygymshop.model.dtos;
 
 
+import bg.softuni.mygymshop.model.enums.ProductCategoryType;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 
 public class CreateProductDTO {
 
-  @NotNull
-  @Min(1)
-  private Long productId;
-
   @NotBlank
   private String name;
 
   @NotNull
-  private String type;
+  private ProductCategoryType type;
 
   @Positive
   @NotNull
@@ -27,20 +24,11 @@ public class CreateProductDTO {
   @NotEmpty
   private String imageUrl;
 
-  public Long getProductId() {
-    return productId;
-  }
-
-  public CreateProductDTO setProductId(Long productId) {
-    this.productId = productId;
-    return this;
-  }
-
-  public String getType() {
+  public ProductCategoryType getType() {
     return type;
   }
 
-  public CreateProductDTO setType(String type) {
+  public CreateProductDTO setType(ProductCategoryType type) {
     this.type = type;
     return this;
   }
