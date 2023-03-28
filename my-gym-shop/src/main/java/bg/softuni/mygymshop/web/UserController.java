@@ -1,6 +1,8 @@
 package bg.softuni.mygymshop.web;
 
 import bg.softuni.mygymshop.model.dtos.UserRegistrationDTO;
+import bg.softuni.mygymshop.model.entities.UserEntity;
+import bg.softuni.mygymshop.model.views.UserProfileViewDTO;
 import bg.softuni.mygymshop.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,8 +13,11 @@ import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/users")
@@ -82,21 +87,20 @@ public class UserController {
         return "redirect:/users/login";
     }
 
-//    @GetMapping("/profile") NOT YET IMPLEMENTED!
-//    public String profile(Principal principal, Model model) {
-//        String username = principal.getName();
-//        UserEntity user = userService.getUser(username);
-//
-//        UserProfileView userProfileView = new UserProfileView(
-//                username,
-//                user.getEmail(),
-//                user.getFirstName(),
-//                user.getLastName(),
-//                user.getAge()
-//        );
-//
-//        model.addAttribute("user", userProfileView);
-//
-//        return "profile";
-//    }
+    @GetMapping("/profile")
+    public String getUserProfileDetails(Principal principal, Model model) {
+        String username = principal.getName();
+        UserEntity user = userService.getUser(username);
+
+        UserProfileViewDTO userProfileView = new UserProfileViewDTO()
+                .setUsername(user.getUsername())
+                .setEmail(user.getEmail())
+                .setAge(user.getAge())
+                .setFirstName(user.getFirstName())
+                .setLastName(user.getLastName());
+
+        model.addAttribute("userProfile", userProfileView);
+
+        return "profile";
+    }
 }

@@ -11,6 +11,7 @@
 </div>
 
 <div class="container">
+
     <h2 class="text-center text-white">Login</h2>
     <form th:method="post" th:action="@{/users/login}"
           class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
@@ -26,7 +27,8 @@
 
         </div>
 
-        <p class="errors alert alert-danger" th:if="${bad_credentials}">
+        <p th:if="${bad_credentials}"
+           class="errors alert alert-danger">
             Invalid username or password.
         </p>
 

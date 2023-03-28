@@ -4,6 +4,7 @@ import bg.softuni.mygymshop.model.dtos.UserRegistrationDTO;
 import bg.softuni.mygymshop.model.entities.RoleEntity;
 import bg.softuni.mygymshop.model.entities.UserEntity;
 import bg.softuni.mygymshop.model.enums.RoleType;
+import bg.softuni.mygymshop.model.views.UserProfileViewDTO;
 import bg.softuni.mygymshop.repository.UserRepository;
 import bg.softuni.mygymshop.repository.UserRoleRepository;
 import jakarta.annotation.PostConstruct;
@@ -68,10 +69,9 @@ public class UserService {
 
     }
 
-
-    public UserEntity getUser(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username + " was not found!"));
+    public UserEntity getUser(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(email + " was not found!"));
     }
 
     @PostConstruct
