@@ -1,6 +1,7 @@
 package bg.softuni.mygymshop.service;
 
 import bg.softuni.mygymshop.model.dtos.CreateProductDTO;
+import bg.softuni.mygymshop.model.dtos.ProductDetailDTO;
 import bg.softuni.mygymshop.model.entities.CategoryEntity;
 import bg.softuni.mygymshop.model.entities.ProductEntity;
 import bg.softuni.mygymshop.model.enums.ProductCategoryType;
@@ -58,7 +59,7 @@ public class ProductService {
     private ProductDetailsViewDTO map(ProductEntity productEntity) {
         return new ProductDetailsViewDTO().
                 setName(productEntity.getName()).
-                setProductId(productEntity.getProductId()).
+                setId(productEntity.getProductId()).
                 setImageUrl(productEntity.getImageUrl()).
                 setDescription(productEntity.getDescription()).
                 setType(productEntity.getType());
@@ -70,7 +71,7 @@ public class ProductService {
         return mapToProductDTO(savedProduct);
     }
 
-    public ProductEntity mapToProduct(CreateProductDTO productDTO) {
+    private ProductEntity mapToProduct(CreateProductDTO productDTO) {
         return new ProductEntity()
                 .setName(productDTO.getName())
                 .setPrice(productDTO.getPrice())
@@ -79,12 +80,35 @@ public class ProductService {
                 .setType(productDTO.getType());
     }
 
-    public CreateProductDTO mapToProductDTO(ProductEntity product) {
+    private CreateProductDTO mapToProductDTO(ProductEntity product) {
         return new CreateProductDTO()
                 .setName(product.getName())
                 .setPrice(product.getPrice())
                 .setImageUrl(product.getImageUrl())
                 .setDescription(product.getDescription())
                 .setType(product.getType());
+    }
+
+    private ProductDetailDTO mapToProductDetailDTO(ProductEntity product) {
+        return new ProductDetailDTO()
+                .setId(product.getProductId())
+                .setName(product.getName())
+                .setPrice(product.getPrice())
+                .setImageUrl(product.getImageUrl())
+                .setDescription(product.getDescription())
+                .setType(product.getType());
+    }
+
+    public ProductEntity getProductById(Long id) {
+        return productRepository.findById(id).orElseThrow();
+    }
+
+    public Optional<CreateProductDTO> updateProduct(Long id) {
+        return productRepository.findById(id)
+                .map(this::mapToProductDTO);
+    }
+    public Optional<ProductDetailDTO> findProductById(Long id) {
+        return productRepository.findById(id)
+                .map(this::mapToProductDetailDTO);
     }
 }

@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class ProductDetailsViewDTO {
 
-    private Long productId;
+    private Long id;
 
     private String name;
     private String imageUrl;
@@ -28,12 +28,12 @@ public class ProductDetailsViewDTO {
         return this;
     }
 
-    public Long getProductId() {
-        return productId;
+    public Long getId() {
+        return id;
     }
 
-    public ProductDetailsViewDTO setProductId(Long productId) {
-        this.productId = productId;
+    public ProductDetailsViewDTO setId(Long id) {
+        this.id = id;
         return this;
     }
 

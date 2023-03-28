@@ -56,3 +56,8 @@ form.main-form {
 .logged-user {
   color: white;
 }
+
+footer {
+  background-color: #343a40!important;
+  padding-top: 10px;
+}

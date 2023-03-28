@@ -1,16 +1,17 @@
 package bg.softuni.mygymshop.web;
 
 import bg.softuni.mygymshop.model.dtos.CreateProductDTO;
+import bg.softuni.mygymshop.model.dtos.ProductDetailDTO;
+import bg.softuni.mygymshop.model.entities.ProductEntity;
 import bg.softuni.mygymshop.service.ProductService;
 import jakarta.validation.Valid;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -69,5 +70,14 @@ public class ProductController {
 
         return "redirect:/products/all";
     }
+
+    @GetMapping("/{id}")
+    public String getProductDetail(@PathVariable("id") Long id, Model model) {
+        ProductDetailDTO productDetailDTO = productService.findProductById(id)
+                .orElseThrow();
+        model.addAttribute("product", productDetailDTO);
+        return "details";
+    }
+
 
 }
