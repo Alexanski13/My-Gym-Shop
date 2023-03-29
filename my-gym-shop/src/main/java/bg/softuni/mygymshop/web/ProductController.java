@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.UUID;
+
 @Controller
 @RequestMapping("/products")
 public class ProductController {
@@ -80,5 +82,11 @@ public class ProductController {
     }
 
 
+    @DeleteMapping("/{id}")
+    public String deleteProduct(
+            @PathVariable("id") Long id) {
+        productService.deleteProductById(id);
 
+        return "redirect:/products/all";
+    }
 }

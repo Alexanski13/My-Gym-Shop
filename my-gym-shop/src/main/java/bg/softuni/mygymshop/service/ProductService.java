@@ -107,6 +107,7 @@ public class ProductService {
         return productRepository.findById(id)
                 .map(this::mapToProductDetailDTO);
     }
+
     public void updateProduct(ProductDetailDTO productDto) {
         ProductEntity product = productRepository.findById(productDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid product ID"));
@@ -119,5 +120,9 @@ public class ProductService {
         product.setType(productDto.getType());
 
         productRepository.save(product);
+    }
+
+    public void deleteProductById(Long id) {
+        productRepository.deleteById(id);
     }
 }
