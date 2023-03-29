@@ -33,7 +33,7 @@
                 </li>
             </ul>
             <div class="card-body">
-                <a class="card-link" href="@{/products/{productId}(productId=*{id})/edit}">Update</a>
+                <a class="card-link" th:href="@{/products/edit/{productId}(productId=*{id})}">Update</a>
                 <a class="card-link" href="/">Delete</a>
             </div>
         </div>

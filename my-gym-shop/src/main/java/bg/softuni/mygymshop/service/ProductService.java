@@ -103,12 +103,21 @@ public class ProductService {
         return productRepository.findById(id).orElseThrow();
     }
 
-    public Optional<CreateProductDTO> updateProduct(Long id) {
-        return productRepository.findById(id)
-                .map(this::mapToProductDTO);
-    }
     public Optional<ProductDetailDTO> findProductById(Long id) {
         return productRepository.findById(id)
                 .map(this::mapToProductDetailDTO);
+    }
+    public void updateProduct(ProductDetailDTO productDto) {
+        ProductEntity product = productRepository.findById(productDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid product ID"));
+
+        product.setProductId(product.getProductId());
+        product.setName(productDto.getName());
+        product.setDescription(productDto.getDescription());
+        product.setPrice(productDto.getPrice());
+        product.setImageUrl(productDto.getImageUrl());
+        product.setType(productDto.getType());
+
+        productRepository.save(product);
     }
 }

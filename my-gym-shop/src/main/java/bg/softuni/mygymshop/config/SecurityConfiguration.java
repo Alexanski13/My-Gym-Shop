@@ -32,7 +32,7 @@ public class SecurityConfiguration {
                 // the URL-s below are available for all users - logged in and anonymous
                         requestMatchers("/", "/users/login","/users/login-error", "/users/register", "/users/profile").permitAll().
                 // only for admins
-                        requestMatchers("/pages/admins").hasRole(RoleType.ADMIN.name()).
+                        requestMatchers( "/").hasRole(RoleType.ADMIN.name()).
                 anyRequest().authenticated().
                 and().
                 // configure login with HTML form
