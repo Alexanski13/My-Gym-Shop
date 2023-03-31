@@ -3,6 +3,7 @@ package bg.softuni.mygymshop.model.entities;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,19 +17,19 @@ public class OrderEntity {
     private Long id;
 
     @Column
-    private LocalDateTime orderDate;
+    private LocalDate orderDate;
 
     @ManyToOne
     private UserEntity buyer;
 
-    @ManyToMany
-    private List<ProductEntity> products;
+    @ManyToOne
+    private ProductEntity product;
 
     @Column
     private BigDecimal totalPrice;
 
     public OrderEntity() {
-        this.products = new ArrayList<>();
+
     }
 
     public Long getId() {
@@ -40,11 +41,11 @@ public class OrderEntity {
         return this;
     }
 
-    public LocalDateTime getOrderDate() {
+    public LocalDate getOrderDate() {
         return orderDate;
     }
 
-    public OrderEntity setOrderDate(LocalDateTime orderDate) {
+    public OrderEntity setOrderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
         return this;
     }
@@ -58,12 +59,12 @@ public class OrderEntity {
         return this;
     }
 
-    public List<ProductEntity> getProducts() {
-        return products;
+    public ProductEntity getProduct() {
+        return product;
     }
 
-    public OrderEntity setProducts(List<ProductEntity> products) {
-        this.products = products;
+    public OrderEntity setProduct(ProductEntity product) {
+        this.product = product;
         return this;
     }
 
