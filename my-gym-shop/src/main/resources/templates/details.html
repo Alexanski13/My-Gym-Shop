@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="~{fragments/head}">
 </head>
@@ -10,7 +12,7 @@
 <div class="container-fluid">
     <h2 class="text-center text-white mt-5">Details</h2>
     <div th:object="${product}" class="offers row mx-auto d-flex flex-row justify-content-center">
-        <div class="offer card col-sm-2 col-md-3  col-lg-4 m-1 p-0" >
+        <div class="offer card col-sm-2 col-md-3  col-lg-4 m-1 p-0">
 
             <div class="card-body pb-1">
                 <h5 class="card-title">
@@ -33,22 +35,23 @@
                 </li>
             </ul>
             <div class="card-body">
-                <a class="card-link" th:href="@{/products/edit/{productId}(productId=*{id})}">Update</a>
-                    <form
-                            th:action="@{/products/{id}(id=*{id})}"
-                            th:method="delete">
-                        <input type="submit" value="Delete">
-                    </form>
+                <a class="card-link" sec:authorize="hasRole('ADMIN')"
+                   th:href="@{/products/edit/{productId}(productId=*{id})}">Update</a>
+                <form sec:authorize="hasRole('ADMIN')"
+                      th:action="@{/products/{id}(id=*{id})}"
+                      th:method="delete">
+                    <input type="submit" value="Delete">
+                </form>
             </div>
         </div>
         <div class="offer card col-sm-2 col-md-3  col-lg-4 m-1 p-0">
-            <img th:src="*{imageUrl}" class="card-img-top"  alt="Product image">
+            <img th:src="*{imageUrl}" class="card-img-top" alt="Product image">
         </div>
     </div>
 </div>
 
 <div>
-    <footer> </footer>
+    <footer></footer>
 </div>
 
 </body>
