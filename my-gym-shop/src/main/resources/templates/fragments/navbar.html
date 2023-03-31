@@ -12,43 +12,50 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto col-12 justify-content-between">
         <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-          <a class="nav-link"  th:href="@{/products/add}">Add Product</a>
+          <a class="nav-link" th:text="#{navbar_add_product}" th:href="@{/products/add}">Add Product</a>
         </li>
         <li class="nav-item" sec:authorize="isAuthenticated()">
-          <a class="nav-link"  th:href="@{/products/all}">View Products</a>
+          <a class="nav-link" th:text="#{navbar_all_products}" th:href="@{/products/all}">View products</a>
         </li>
         <li class="nav-item" sec:authorize="isAuthenticated()">
-          <a class="nav-link"  th:href="@{/orders/all}">Order Preview</a>
+          <a class="nav-link" th:text="#{navbar_make_order}" th:href="@{/orders/create}">Make order</a>
         </li>
         <li class="nav-item" sec:authorize="isAuthenticated()">
-          <a class="nav-link"  th:href="@{/users/profile}">Profile</a>
+          <a class="nav-link" th:text="#{navbar_all_orders}" th:href="@{/orders/all}">View orders</a>
+        </li>
+        <li class="nav-item" sec:authorize="isAuthenticated()">
+          <a class="nav-link" th:text="#{navbar_profile}" th:href="@{/users/profile}">Profile</a>
         </li>
 
-        <form th:action="@{/locale}" method="post">
-          <select name="lang" onchange="this.form.submit()">
-            <option value="en" th:selected="${#locale.language == 'en'}">English</option>
-            <option value="bg" th:selected="${#locale.language == 'bg'}">Български</option>
-          </select>
-        </form>
+        <li class="nav-item">
+          <form th:method="get">
+            <label class="text-white" th:text="#{navbar_language}" for="lang"></label>
+            <select
+                    onchange="this.form.submit()"
+                    id="lang"
+                    name="lang">
+              <option value="en_US" th:selected="${#locale.toString()} == 'en_US'">English</option>
+              <option value="bg_BG" th:selected="${#locale.toString()} == 'bg_BG'">Български</option>
+            </select>
+          </form>
+        </li>
 
         <!-- Logout start -->
         <li class="nav-item" sec:authorize="isAuthenticated()">
           <div class="form-inline my-2 my-lg-0 px-3">
             <div class="text-white">Welcome, <th:block th:text="${#authentication.principal.fullName}"></th:block>!</div>
-            <form
-                th:method="post"
-                th:action="@{/users/logout}">
-              <input class="btn btn-link nav-link" type="submit" value="Logout">
+            <form th:action="@{/users/logout}" th:method="post">
+              <input class="btn btn-link nav-link" type="submit" th:value="#{navbar_logout}">
             </form>
           </div>
         </li>
         <!-- EO: Logout start -->
 
         <li class="nav-item" sec:authorize="!isAuthenticated()">
-          <a class="nav-link" th:href="@{/users/register}">Register</a>
+          <a class="nav-link" th:text="#{navbar_register}" th:href="@{/users/register}">Register</a>
         </li>
         <li class="nav-item" sec:authorize="!isAuthenticated()">
-          <a class="nav-link" th:href="@{/users/login}">Login</a>
+          <a class="nav-link" th:text="#{navbar_login}" th:href="@{/users/login}">Login</a>
         </li>
 
       </ul>

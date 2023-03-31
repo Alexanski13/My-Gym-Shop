@@ -1,11 +1,7 @@
 package bg.softuni.mygymshop.model.dtos;
 
-import bg.softuni.mygymshop.model.views.UserProfileViewDTO;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
 public class OrderDTO {
 
