@@ -3,18 +3,22 @@ package bg.softuni.mygymshop.service;
 import bg.softuni.mygymshop.model.dtos.CreateProductDTO;
 import bg.softuni.mygymshop.model.dtos.ProductDetailDTO;
 import bg.softuni.mygymshop.model.entities.CategoryEntity;
+import bg.softuni.mygymshop.model.entities.OrderEntity;
 import bg.softuni.mygymshop.model.entities.ProductEntity;
 import bg.softuni.mygymshop.model.enums.ProductCategoryType;
 import bg.softuni.mygymshop.model.views.ProductDetailsViewDTO;
 import bg.softuni.mygymshop.repository.ProductCategoryRepository;
 import bg.softuni.mygymshop.repository.ProductRepository;
 import jakarta.annotation.PostConstruct;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static bg.softuni.mygymshop.model.constants.ProductCategoryDescription.*;
 
@@ -25,12 +29,15 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
+    private final ModelMapper modelMapper;
+
 
     @Autowired
     public ProductService(ProductCategoryRepository productCategoryRepository,
-                          ProductRepository productRepository) {
+                          ProductRepository productRepository, ModelMapper modelMapper) {
         this.productCategoryRepository = productCategoryRepository;
         this.productRepository = productRepository;
+        this.modelMapper = modelMapper;
     }
 
     @PostConstruct
@@ -124,5 +131,10 @@ public class ProductService {
 
     public void deleteProductById(Long id) {
         productRepository.deleteById(id);
+    }
+
+    public List<ProductDetailDTO> getAllProductsForOrder() {
+        return productRepository.findAll().stream().map(this::mapToProductDetailDTO).collect(Collectors.toList());
+
     }
 }

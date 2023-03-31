@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      >
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -13,7 +12,7 @@
 
 <body>
 
-<div th:replace="fragments/navbar">Navbar</div>
+<div th:replace="~{fragments/navbar}">Navbar</div>
 
 
 <div class="container-fluid">
@@ -54,23 +53,47 @@
 </div>
 
 <div class="container-fluid container-fluid row justify-content-center">
-    <nav aria-label="Page navigation">
+    <nav>
         <ul class="pagination">
-            <li class="page-item" th:classappend="${products.isFirst() ? 'disabled' : ''}">
-                <a th:unless="${products.isFirst()}" class="page-link"
-                   th:href="@{/products/all(size=${products.getSize()}, page=${0})}">First</a>
-                <a th:if="${products.isFirst()}" class="page-link" href="#">First</a>
+            <li class="page-item" th:classappend="${products.isFirst()} ? 'disabled' : ''">
+                <a th:unless="${products.isFirst()}"
+                   th:href="@{/products/all(size=${products.getSize()},page=0)}"
+                   class="page-link" href="#">First</a>
+                <a th:if="${products.isFirst()}"
+                   class="page-link" href="#">First</a>
             </li>
-            <li class="page-item active">
-                <a class="page-link" href="#">Previous</a>
+        </ul>
+    </nav>
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${products.hasPrevious() ? '' : 'disabled'}">
+                <a th:if="${products.hasPrevious()}"
+                   th:href="@{/products/all(size=${products.getSize()},page=${products.getNumber() - 1})}"
+                   class="page-link" href="#">Previous</a>
+                <a th:unless="${products.hasPrevious()}"
+                   class="page-link" href="#">Previous</a>
             </li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
+        </ul>
+    </nav>
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${products.hasNext() ? '' : 'disabled'}">
+                <a th:if="${products.hasNext()}"
+                   th:href="@{/products/all(size=${products.getSize()},page=${products.getNumber() + 1})}"
+                   class="page-link" href="#">Next</a>
+                <a th:unless="${products.hasNext()}"
+                   class="page-link" href="#">Next</a>
             </li>
-            <li class="page-item" th:classappend="${products.isLast() ? 'disabled' : ''}">
-                <a th:unless="${products.isLast()}" class="page-link"
-                   th:href="@{/products/all(size=${products.getSize()}, page=${products.getTotalPages() - 1})}">Last</a>
-                <a th:if="${products.isLast()}" class="page-link" href="#">Last</a>
+        </ul>
+    </nav>
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${products.isLast()} ? 'disabled' : ''">
+                <a th:unless="${products.isLast()}"
+                   th:href="@{/products/all(size=${products.getSize()},page=${products.getTotalPages() - 1})}"
+                   class="page-link" href="#">Last</a>
+                <a th:if="${products.isLast()}"
+                   class="page-link" href="#">Last</a>
             </li>
         </ul>
     </nav>

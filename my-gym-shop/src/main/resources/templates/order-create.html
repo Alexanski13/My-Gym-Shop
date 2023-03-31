@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>GymNation!</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+</head>
+
+<body>
+
+<div th:replace="~{fragments/navbar}">Navbar</div>
+
+<h1>Make Order</h1>
+<form th:action="@{/orders/create}" th:object="${order}" method="post">
+    <label for="user">User:</label>
+    <select id="user" name="userId" th:field="*{id}">
+        <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.username}"></option>
+    </select>
+    <br><br>
+    <label for="product">Product:</label>
+    <select id="product" name="productId" th:field="*{id}">
+        <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option>
+    </select>
+    <input type="submit" value="Make Order"/>
+</form>
+
+<div>
+    <footer></footer>
+</div>
+
+</body>
+</html>

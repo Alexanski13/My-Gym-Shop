@@ -1,5 +1,6 @@
 package bg.softuni.mygymshop.service;
 
+import bg.softuni.mygymshop.model.dtos.UserDTO;
 import bg.softuni.mygymshop.model.dtos.UserRegistrationDTO;
 import bg.softuni.mygymshop.model.entities.RoleEntity;
 import bg.softuni.mygymshop.model.entities.UserEntity;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -140,4 +142,20 @@ public class UserService {
 
         userRepository.save(normalUser);
     }
+
+    public List<UserDTO> getAllUsers() {
+        return userRepository.findAll().stream().map(this::map).collect(Collectors.toList());
+    }
+
+    private UserDTO map(UserEntity userEntity) {
+        return new UserDTO()
+                .setId(userEntity.getId())
+                .setEmail(userEntity.getEmail())
+                .setAge(userEntity.getAge())
+                .setUsername(userEntity.getUsername())
+                .setFirstName(userEntity.getFirstName())
+                .setLastName(userEntity.getLastName());
+    }
+
+
 }

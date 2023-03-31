@@ -1,8 +1,11 @@
 package bg.softuni.mygymshop.web;
 
 import bg.softuni.mygymshop.model.dtos.OrderDTO;
+import bg.softuni.mygymshop.model.dtos.ProductDetailDTO;
+import bg.softuni.mygymshop.model.dtos.UserDTO;
 import bg.softuni.mygymshop.service.OrderService;
-import org.modelmapper.ModelMapper;
+import bg.softuni.mygymshop.service.ProductService;
+import bg.softuni.mygymshop.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -18,11 +21,15 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
-    private final ModelMapper modelMapper;
 
-    public OrderController(OrderService orderService, ModelMapper modelMapper) {
+    private final UserService userService;
+
+    private final ProductService productService;
+
+    public OrderController(OrderService orderService, UserService userService, ProductService productService) {
         this.orderService = orderService;
-        this.modelMapper = modelMapper;
+        this.userService = userService;
+        this.productService = productService;
     }
 
     @GetMapping("/all")
@@ -33,5 +40,15 @@ public class OrderController {
         Page<OrderDTO> orderDTOs = orderService.getAllOrders(pageable);
         model.addAttribute("orders", orderDTOs);
         return "orders";
+    }
+
+    @GetMapping("/show")
+    public String showOrderForm(Model model) {
+        List<UserDTO> users = userService.getAllUsers();
+        List<ProductDetailDTO> products = productService.getAllProductsForOrder();
+        model.addAttribute("order", new OrderDTO());
+        model.addAttribute("users", users);
+        model.addAttribute("products", products);
+        return "order-create";
     }
 }

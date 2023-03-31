@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/css/main.css"/>
 </head>
 <body>
-<div th:replace="fragments/navbar">Navbar</div>
+<div th:replace="~{fragments/navbar}">Navbar</div>
 
 
 <div class="container-fluid">
@@ -43,6 +43,53 @@
             </ul>
         </div>
     </div>
+</div>
+
+<div class="container-fluid container-fluid row justify-content-center">
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${orders.isFirst()} ? 'disabled' : ''">
+                <a th:unless="${orders.isFirst()}"
+                   th:href="@{/orders/all(size=${orders.getSize()},page=0)}"
+                   class="page-link" href="#">First</a>
+                <a th:if="${orders.isFirst()}"
+                   class="page-link" href="#">First</a>
+            </li>
+        </ul>
+    </nav>
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${orders.hasPrevious() ? '' : 'disabled'}">
+                <a th:if="${orders.hasPrevious()}"
+                   th:href="@{/orders/all(size=${orders.getSize()},page=${orders.getNumber() - 1})}"
+                   class="page-link" href="#">Previous</a>
+                <a th:unless="${orders.hasPrevious()}"
+                   class="page-link" href="#">Previous</a>
+            </li>
+        </ul>
+    </nav>
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${orders.hasNext() ? '' : 'disabled'}">
+                <a th:if="${orders.hasNext()}"
+                   th:href="@{/orders/all(size=${orders.getSize()},page=${orders.getNumber() + 1})}"
+                   class="page-link" href="#">Next</a>
+                <a th:unless="${orders.hasNext()}"
+                   class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${orders.isLast()} ? 'disabled' : ''">
+                <a th:unless="${orders.isLast()}"
+                   th:href="@{/orders/all(size=${orders.getSize()},page=${orders.getTotalPages() - 1})}"
+                   class="page-link" href="#">Last</a>
+                <a th:if="${orders.isLast()}"
+                   class="page-link" href="#">Last</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 </body>
 </html>
