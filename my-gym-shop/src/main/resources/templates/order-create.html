@@ -16,12 +16,12 @@
 <h1>Make Order</h1>
 <form th:action="@{/orders/create}" th:object="${order}" method="post">
     <label for="user">User:</label>
-    <select id="user" name="userId" th:field="*{id}">
+    <select id="user" name="userId" th:field="*{userId}">
         <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.username}"></option>
     </select>
     <br><br>
     <label for="product">Product:</label>
-    <select id="product" name="productId" th:field="*{id}">
+    <select id="product" name="productId" th:field="*{productId}">
         <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option>
     </select>
     <input type="submit" value="Make Order"/>

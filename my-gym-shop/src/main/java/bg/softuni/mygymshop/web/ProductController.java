@@ -23,12 +23,6 @@ public class ProductController {
         this.productService = productService;
     }
 
-//    @GetMapping("/{id}")
-//    public String getProductById(@PathVariable("id") Long productId) {
-//        //todo
-//        return "details";
-//    }
-
     @GetMapping("/all")
     public String getAllProducts(Model model,
                                  @PageableDefault(

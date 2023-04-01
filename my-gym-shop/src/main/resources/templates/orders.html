@@ -12,7 +12,7 @@
 
 
 <div class="container-fluid">
-    <h2 class="text-center text-white mt-5">All Offers</h2>
+    <h2 class="text-center text-white mt-5">All Orders</h2>
     <div th:each="order: ${orders.getContent()}"
          th:object="${order}"
          class="offers row mx-auto d-flex flex-row justify-content-center">
@@ -28,7 +28,7 @@
             <ul class="offer-details list-group list-group-flush">
                 <li class="list-group-item">
                     <div class="card-text">• Order Date:
-                        <th:block th:text="*{orderDate}"></th:block>
+                        <th:block th:text="*{#temporals.format(orderDate, 'yyyy-MM-dd HH:mm')}"></th:block>
                     </div>
                     <div class="card-text">• Product:
                         <th:block th:text="*{product.getName}"></th:block>
@@ -37,7 +37,7 @@
                         <th:block th:text="*{buyer.getFirstName}"></th:block>
                     </div>
                     <div class="card-text">• Price:
-                        <th:block th:text="*{price}"></th:block>
+                        <th:block th:text="*{product.getPrice}"></th:block>
                     </div>
                 </li>
             </ul>

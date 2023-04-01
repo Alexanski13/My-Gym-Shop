@@ -1,23 +1,23 @@
 package bg.softuni.mygymshop.model.entities;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "orders")
-public class OrderEntity {
+public class OrderEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    private LocalDate orderDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime orderDate = LocalDateTime.now();
 
     @ManyToOne
     private UserEntity buyer;
@@ -41,11 +41,11 @@ public class OrderEntity {
         return this;
     }
 
-    public LocalDate getOrderDate() {
+    public LocalDateTime getOrderDate() {
         return orderDate;
     }
 
-    public OrderEntity setOrderDate(LocalDate orderDate) {
+    public OrderEntity setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
         return this;
     }

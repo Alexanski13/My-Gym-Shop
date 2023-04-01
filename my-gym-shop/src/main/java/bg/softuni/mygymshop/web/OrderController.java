@@ -6,14 +6,20 @@ import bg.softuni.mygymshop.model.dtos.UserDTO;
 import bg.softuni.mygymshop.service.OrderService;
 import bg.softuni.mygymshop.service.ProductService;
 import bg.softuni.mygymshop.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -36,9 +42,10 @@ public class OrderController {
     public String showAllOrders(Model model, @PageableDefault(
             sort = "id",
             size = 3
-    ) Pageable pageable) {
+    ) Pageable pageable, @ModelAttribute("orderDate") OrderDTO orderDate) {
         Page<OrderDTO> orderDTOs = orderService.getAllOrders(pageable);
         model.addAttribute("orders", orderDTOs);
+        model.addAttribute("orderDate", orderDate.getFormattedDate());
         return "orders";
     }
 
@@ -50,5 +57,22 @@ public class OrderController {
         model.addAttribute("users", users);
         model.addAttribute("products", products);
         return "order-create";
+    }
+
+    @PostMapping("/create")
+    public String createOrder(@Valid OrderDTO orderDTO,
+                             BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("order", orderDTO);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.order",
+                    bindingResult);
+            return "redirect:/orders/all";
+        }
+
+        orderService.createOrder(orderDTO);
+
+        return "redirect:/orders/show";
     }
 }
