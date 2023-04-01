@@ -2,6 +2,7 @@ package bg.softuni.mygymshop.web;
 
 import bg.softuni.mygymshop.model.dtos.CreateProductDTO;
 import bg.softuni.mygymshop.model.dtos.ProductDetailDTO;
+import bg.softuni.mygymshop.model.views.ProductDetailsViewDTO;
 import bg.softuni.mygymshop.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
@@ -26,13 +27,11 @@ public class ProductController {
     @GetMapping("/all")
     public String getAllProducts(Model model,
                                  @PageableDefault(
-                                       sort = "productId",
-                                       size = 3
-                               ) Pageable pageable) {
+                                         sort = "productId",
+                                         size = 3
+                                 ) Pageable pageable) {
 
-        var allProductsPage = productService.getAllProducts(pageable);
-
-        model.addAttribute("products", allProductsPage);
+        model.addAttribute("products", productService.getAllProducts(pageable));
 
         return "products";
     }
@@ -48,8 +47,8 @@ public class ProductController {
 
     @PostMapping("/add")
     public String addProduct(@Valid CreateProductDTO productDTO,
-                                     BindingResult bindingResult,
-                                     RedirectAttributes redirectAttributes) {
+                             BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addProductModel", productDTO);

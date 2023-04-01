@@ -69,7 +69,8 @@ public class ProductService {
                 setId(productEntity.getProductId()).
                 setImageUrl(productEntity.getImageUrl()).
                 setDescription(productEntity.getDescription()).
-                setType(productEntity.getType());
+                setType(productEntity.getType())
+                .setPrice(productEntity.getPrice());
     }
 
     public CreateProductDTO addProduct(CreateProductDTO createProductDTO) {
@@ -104,10 +105,6 @@ public class ProductService {
                 .setImageUrl(product.getImageUrl())
                 .setDescription(product.getDescription())
                 .setType(product.getType());
-    }
-
-    public ProductEntity getProductById(Long id) {
-        return productRepository.findById(id).orElseThrow();
     }
 
     public Optional<ProductDetailDTO> findProductById(Long id) {
