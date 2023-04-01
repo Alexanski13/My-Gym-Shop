@@ -6,6 +6,7 @@ import bg.softuni.mygymshop.model.entities.UserEntity;
 import bg.softuni.mygymshop.model.views.CommentView;
 import bg.softuni.mygymshop.service.CommentService;
 import bg.softuni.mygymshop.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

@@ -11,9 +11,10 @@
 
 <div class="container-fluid">
     <h2 class="text-center text-white mt-5">Details</h2>
+    <input type="hidden" name="productId" id="productId" th:value="*{product.id}">
     <div th:object="${product}" class="offers row mx-auto d-flex flex-row justify-content-center">
 
-        <input type="hidden" name="productId" id="productId" th:value="*{id}">
+
         <div class="offer card col-sm-2 col-md-3  col-lg-4 m-1 p-0">
             <div class="card-body pb-1">
                 <h5 class="card-title">Product Details</h5>
@@ -52,9 +53,10 @@
 
             <h1>Comments</h1>
             <div>
+
                 <!-- Comments submission -->
                 <form id="commentForm" method="POST"
-                      action="/">
+                      th:action="@{/api/{productId}/comments(productId=${product.id})}">
                     <div class="form-group">
                         <h4>Leave a comment</h4>
                         <label for="message">Message</label>
