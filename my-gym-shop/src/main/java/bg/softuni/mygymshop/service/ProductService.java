@@ -134,4 +134,9 @@ public class ProductService {
         return productRepository.findAll().stream().map(this::mapToProductDetailDTO).collect(Collectors.toList());
 
     }
+
+    public ProductEntity getProductById(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Unable to find product!"));
+    }
 }

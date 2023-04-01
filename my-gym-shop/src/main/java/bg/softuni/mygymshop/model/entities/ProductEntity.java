@@ -4,6 +4,8 @@ import bg.softuni.mygymshop.model.enums.ProductCategoryType;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -28,8 +30,21 @@ public class ProductEntity {
 
     private String imageUrl;
 
+    @OneToMany(targetEntity = CommentEntity.class, mappedBy = "product", cascade = CascadeType.ALL)
+    private Set<CommentEntity> comments;
+
 
     public ProductEntity() {
+        this.comments = new HashSet<>();
+    }
+
+    public Set<CommentEntity> getComments() {
+        return comments;
+    }
+
+    public ProductEntity setComments(Set<CommentEntity> comments) {
+        this.comments = comments;
+        return this;
     }
 
     public Long getProductId() {

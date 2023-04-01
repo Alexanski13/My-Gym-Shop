@@ -158,4 +158,8 @@ public class UserService {
     }
 
 
+    public UserEntity getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+    }
 }
