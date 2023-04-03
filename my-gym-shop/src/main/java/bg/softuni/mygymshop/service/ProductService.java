@@ -18,10 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static bg.softuni.mygymshop.model.constants.ProductCategoryDescription.*;
@@ -120,20 +117,6 @@ public class ProductService {
                 .map(this::mapToProductDetailDTO);
     }
 
-    public void updateProduct(ProductDetailDTO productDto) {
-        ProductEntity product = productRepository.findById(productDto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid product ID"));
-
-        product.setProductId(product.getProductId());
-        product.setName(productDto.getName());
-        product.setDescription(productDto.getDescription());
-        product.setPrice(productDto.getPrice());
-        product.setImageUrl(productDto.getImageUrl());
-        product.setType(productDto.getType());
-
-        productRepository.save(product);
-    }
-
     public void deleteProductById(Long id) {
         productRepository.deleteById(id);
     }
@@ -172,5 +155,23 @@ public class ProductService {
             productInventories.add(productInventory);
         }
         return productInventories;
+    }
+
+    // UPDATE PRODUCT
+
+    @Transactional
+    public void updateProduct(CreateProductDTO productDTO) {
+        ProductEntity product = productRepository.findById(productDTO.getId()).orElse(null);
+        if (product != null) {
+            product
+                    .setName(productDTO.getName())
+                    .setDescription(productDTO.getDescription())
+                    .setType(productDTO.getType())
+                    .setName(product.getName())
+                    .setQuantity(product.getQuantity())
+                    .setPrice(productDTO.getPrice())
+                    .setImageUrl(productDTO.getImageUrl());
+            productRepository.saveAndFlush(product);
+        }
     }
 }

@@ -10,6 +10,7 @@ import bg.softuni.mygymshop.repository.OrderRepository;
 import bg.softuni.mygymshop.repository.ProductRepository;
 import bg.softuni.mygymshop.repository.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class OrderService {
 
     private final ProductMapper productMapper;
 
+    @Autowired
     public OrderService(OrderRepository orderRepository,
                         ProductRepository productRepository,
                         UserRepository userRepository,
@@ -36,15 +38,6 @@ public class OrderService {
         this.modelMapper = modelMapper;
         this.orderMapper = orderMapper;
         this.productMapper = productMapper;
-    }
-
-    public void placeOrder(OrderDTO orderDTO) {
-        OrderEntity orderEntity = modelMapper.map(orderDTO, OrderEntity.class);
-        ProductEntity productEntity = productRepository.findById(orderDTO.getProduct().getId()).orElseThrow();
-        UserEntity userEntity = userRepository.findById(orderDTO.getBuyer().getId()).orElseThrow();
-        orderEntity.setProduct(productEntity);
-        orderEntity.setBuyer(userEntity);
-        orderRepository.save(orderEntity);
     }
 
     public OrderDTO createOrder(OrderDTO orderDto) {

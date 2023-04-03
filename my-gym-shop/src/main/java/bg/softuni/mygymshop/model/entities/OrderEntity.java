@@ -28,8 +28,20 @@ public class OrderEntity implements Serializable {
     @Column
     private BigDecimal totalPrice;
 
+    @Column
+    private Integer quantity;
+
     public OrderEntity() {
 
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public OrderEntity setQuantity(Integer quantity) {
+        this.quantity = quantity;
+        return this;
     }
 
     public Long getId() {

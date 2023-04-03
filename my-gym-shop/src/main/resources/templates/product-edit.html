@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -10,13 +10,13 @@
 <body>
 <div th:replace="~{fragments/navbar}">Navbar</div>
 
-<h1>Add Product</h1>
-<form th:action="@{/products/edit/{productId}(productId=*{id})}" th:object="${product}" method="post">
+<h1>Update Product</h1>
+<form th:action="@{/products/edit/{id}(id=*{id})}" th:object="${productDTO}" method="post">
     <label>Name:</label><input type="text" th:field="*{name}"/><br/>
     <label>Description:</label><input type="text" th:field="*{description}"/><br/>
     <label>ImageURL:</label><input type="text" th:field="*{imageUrl}"/><br/>
     <label>Price:</label><input type="number" th:field="*{price}"/><br/>
-    <label>Price:</label><input type="number" th:field="*{quantity}"/><br/>
+    <label>Quantity:</label><input type="number" th:field="*{quantity}"/><br/>
     <label>Category:</label>
     <select th:field="*{type}">
         <option th:value="PROTEIN">Protein</option>

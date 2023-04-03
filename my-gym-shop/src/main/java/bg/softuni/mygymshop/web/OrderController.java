@@ -68,11 +68,11 @@ public class OrderController {
             redirectAttributes.addFlashAttribute("order", orderDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.order",
                     bindingResult);
-            return "redirect:/orders/all";
+            return "redirect:/orders/show";
         }
 
         orderService.createOrder(orderDTO);
 
-        return "redirect:/orders/show";
+        return "redirect:/orders/all";
     }
 }

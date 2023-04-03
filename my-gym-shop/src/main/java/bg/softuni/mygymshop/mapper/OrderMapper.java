@@ -33,7 +33,8 @@ public class OrderMapper {
                 .setUserId(order.getBuyer().getId())
                 .setProductId(order.getProduct().getProductId())
                 .setOrderDate(order.getOrderDate())
-                .setPrice(order.getTotalPrice());
+                .setPrice(order.getTotalPrice())
+                .setQuantity(order.getQuantity());
     }
 
     public OrderEntity toEntity(OrderDTO orderDto) {
@@ -49,6 +50,7 @@ public class OrderMapper {
         order.setBuyer(userMapper.toEntity(userDTO));
         order.setTotalPrice(productDetailDTO.getPrice());
         order.setOrderDate(orderDto.getOrderDate());
+        order.setQuantity(orderDto.getQuantity());
         return order;
     }
 }

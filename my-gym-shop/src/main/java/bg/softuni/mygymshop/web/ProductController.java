@@ -3,6 +3,7 @@ package bg.softuni.mygymshop.web;
 import bg.softuni.mygymshop.model.dtos.CreateProductDTO;
 import bg.softuni.mygymshop.model.dtos.ProductDetailDTO;
 import bg.softuni.mygymshop.model.dtos.ProductInventoryDTO;
+import bg.softuni.mygymshop.model.entities.ProductEntity;
 import bg.softuni.mygymshop.model.views.ProductDetailsViewDTO;
 import bg.softuni.mygymshop.service.ProductService;
 import jakarta.validation.Valid;
@@ -71,6 +72,28 @@ public class ProductController {
                 .orElseThrow();
         model.addAttribute("product", productDetailDTO);
         return "details";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") Long id, Model model) {
+        ProductEntity product = productService.getProductById(id);
+        CreateProductDTO productDTO = new CreateProductDTO();
+        productDTO
+                .setId(product.getProductId())
+                .setDescription(product.getDescription())
+                .setType(product.getType())
+                .setName(product.getName())
+                .setQuantity(product.getQuantity())
+                .setPrice(product.getPrice())
+                .setImageUrl(product.getImageUrl());
+        model.addAttribute("productDTO", productDTO);
+        return "product-edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String processUpdateForm(@PathVariable("id") Long id, @ModelAttribute("productDTO") CreateProductDTO productDTO) {
+        productService.updateProduct(productDTO);
+        return "redirect:/products/details/" + id;
     }
 
 

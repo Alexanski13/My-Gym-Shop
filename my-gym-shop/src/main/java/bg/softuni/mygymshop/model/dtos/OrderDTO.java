@@ -13,6 +13,17 @@ public class OrderDTO {
     private UserDTO buyer;
     private BigDecimal price;
 
+    private Integer quantity;
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public OrderDTO setQuantity(Integer quantity) {
+        this.quantity = quantity;
+        return this;
+    }
+
     public Long getProductId() {
         return productId;
     }
@@ -67,10 +78,10 @@ public class OrderDTO {
         return this;
     }
 
-    LocalDate convertDate = getOrderDate().toLocalDate();
-    String formattedDate = convertDate.toString();
+
 
     public String getFormattedDate() {
-        return formattedDate;
+        LocalDate convertDate = getOrderDate().toLocalDate();
+        return convertDate.toString();
     }
 }
