@@ -2,6 +2,7 @@ package bg.softuni.mygymshop.service;
 
 import bg.softuni.mygymshop.model.dtos.CreateProductDTO;
 import bg.softuni.mygymshop.model.dtos.ProductDetailDTO;
+import bg.softuni.mygymshop.model.dtos.ProductInventoryDTO;
 import bg.softuni.mygymshop.model.entities.CategoryEntity;
 import bg.softuni.mygymshop.model.entities.OrderEntity;
 import bg.softuni.mygymshop.model.entities.ProductEntity;
@@ -10,12 +11,15 @@ import bg.softuni.mygymshop.model.views.ProductDetailsViewDTO;
 import bg.softuni.mygymshop.repository.ProductCategoryRepository;
 import bg.softuni.mygymshop.repository.ProductRepository;
 import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -142,5 +146,31 @@ public class ProductService {
     public ProductEntity getProductById(Long productId) {
         return productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Unable to find product!"));
+    }
+
+    // IMPLEMENTING SCHEDULE JOB
+
+    @Transactional
+    public void updateProductInventories(List<ProductInventoryDTO> productInventories) {
+        for (ProductInventoryDTO productInventory : productInventories) {
+            ProductEntity product = productRepository.findById(productInventory.getId()).orElse(null);
+            if (product != null) {
+                product.setQuantity(productInventory.getQuantity());
+                productRepository.save(product);
+            }
+        }
+    }
+
+    public List<ProductInventoryDTO> getAllProductInventories() {
+        List<ProductEntity> products = productRepository.findAll();
+        List<ProductInventoryDTO> productInventories = new ArrayList<>();
+        for (ProductEntity product : products) {
+            ProductInventoryDTO productInventory = new ProductInventoryDTO();
+            productInventory.setId(product.getProductId());
+            productInventory.setName(product.getName());
+            productInventory.setQuantity(product.getQuantity());
+            productInventories.add(productInventory);
+        }
+        return productInventories;
     }
 }

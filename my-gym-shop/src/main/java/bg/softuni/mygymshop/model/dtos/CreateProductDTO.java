@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 
 public class CreateProductDTO {
 
+  private Long id;
+
   @NotBlank
   private String name;
 
@@ -26,6 +28,19 @@ public class CreateProductDTO {
 
   @NotNull
   private Integer quantity;
+
+  public Long getId() {
+    return id;
+  }
+
+  public CreateProductDTO setId(Long id) {
+    this.id = id;
+    return this;
+  }
+
+  public boolean isLowQuantity() {
+    return quantity <= 10;
+  }
 
   public Integer getQuantity() {
     return quantity;

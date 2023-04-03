@@ -2,6 +2,7 @@ package bg.softuni.mygymshop.web;
 
 import bg.softuni.mygymshop.model.dtos.CreateProductDTO;
 import bg.softuni.mygymshop.model.dtos.ProductDetailDTO;
+import bg.softuni.mygymshop.model.dtos.ProductInventoryDTO;
 import bg.softuni.mygymshop.model.views.ProductDetailsViewDTO;
 import bg.softuni.mygymshop.service.ProductService;
 import jakarta.validation.Valid;
@@ -12,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/products")
@@ -77,5 +80,12 @@ public class ProductController {
         productService.deleteProductById(id);
 
         return "redirect:/products/all";
+    }
+
+    @GetMapping("/status")
+    public String getProductStatus(Model model) {
+        List<ProductInventoryDTO> products = productService.getAllProductInventories();
+        model.addAttribute("products", products);
+        return "product-status";
     }
 }
