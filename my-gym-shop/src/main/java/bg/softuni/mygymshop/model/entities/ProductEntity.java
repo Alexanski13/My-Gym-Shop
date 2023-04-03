@@ -25,10 +25,13 @@ public class ProductEntity {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @Column(unique = true)
+    @Column(nullable = false)
     private ProductCategoryType type;
 
     private String imageUrl;
+
+    @Column(nullable = false)
+    private Integer quantity;
 
     @OneToMany(targetEntity = CommentEntity.class, mappedBy = "product", cascade = CascadeType.ALL)
     private Set<CommentEntity> comments;
@@ -36,6 +39,15 @@ public class ProductEntity {
 
     public ProductEntity() {
         this.comments = new HashSet<>();
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public ProductEntity setQuantity(Integer quantity) {
+        this.quantity = quantity;
+        return this;
     }
 
     public Set<CommentEntity> getComments() {

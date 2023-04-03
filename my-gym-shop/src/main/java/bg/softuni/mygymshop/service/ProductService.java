@@ -69,8 +69,9 @@ public class ProductService {
                 setId(productEntity.getProductId()).
                 setImageUrl(productEntity.getImageUrl()).
                 setDescription(productEntity.getDescription()).
-                setType(productEntity.getType())
-                .setPrice(productEntity.getPrice());
+                setType(productEntity.getType()).
+                setPrice(productEntity.getPrice()).
+                setQuantity(productEntity.getQuantity());
     }
 
     public CreateProductDTO addProduct(CreateProductDTO createProductDTO) {
@@ -85,7 +86,8 @@ public class ProductService {
                 .setPrice(productDTO.getPrice())
                 .setImageUrl(productDTO.getImageUrl())
                 .setDescription(productDTO.getDescription())
-                .setType(productDTO.getType());
+                .setType(productDTO.getType())
+                .setQuantity(productDTO.getQuantity());
     }
 
     private CreateProductDTO mapToProductDTO(ProductEntity product) {
@@ -94,7 +96,8 @@ public class ProductService {
                 .setPrice(product.getPrice())
                 .setImageUrl(product.getImageUrl())
                 .setDescription(product.getDescription())
-                .setType(product.getType());
+                .setType(product.getType())
+                .setQuantity(product.getQuantity());
     }
 
     private ProductDetailDTO mapToProductDetailDTO(ProductEntity product) {
@@ -104,7 +107,8 @@ public class ProductService {
                 .setPrice(product.getPrice())
                 .setImageUrl(product.getImageUrl())
                 .setDescription(product.getDescription())
-                .setType(product.getType());
+                .setType(product.getType())
+                .setQuantity(product.getQuantity());
     }
 
     public Optional<ProductDetailDTO> findProductById(Long id) {

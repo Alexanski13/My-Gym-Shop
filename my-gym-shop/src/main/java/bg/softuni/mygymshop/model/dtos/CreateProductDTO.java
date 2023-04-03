@@ -24,6 +24,18 @@ public class CreateProductDTO {
   @NotEmpty
   private String imageUrl;
 
+  @NotNull
+  private Integer quantity;
+
+  public Integer getQuantity() {
+    return quantity;
+  }
+
+  public CreateProductDTO setQuantity(Integer quantity) {
+    this.quantity = quantity;
+    return this;
+  }
+
   public ProductCategoryType getType() {
     return type;
   }

@@ -15,6 +15,17 @@ public class ProductDetailsViewDTO {
 
     private String description;
 
+    private Integer quantity;
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public ProductDetailsViewDTO setQuantity(Integer quantity) {
+        this.quantity = quantity;
+        return this;
+    }
+
     public String offerSummary() {
         return type + " " + price;
     }

@@ -18,6 +18,17 @@ public class ProductDetailDTO {
 
     private String imageUrl;
 
+    private Integer quantity;
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public ProductDetailDTO setQuantity(Integer quantity) {
+        this.quantity = quantity;
+        return this;
+    }
+
     public Long getId() {
         return id;
     }

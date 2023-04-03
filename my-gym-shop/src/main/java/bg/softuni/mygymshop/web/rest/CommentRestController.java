@@ -93,6 +93,8 @@ public class CommentRestController {
                 .body(commentView);
     }
 
+
+
     @DeleteMapping("/api/{productId}/comments/{commentId}")
     public ResponseEntity<CommentView> deleteComment(@PathVariable("commentId") Long commentId,
                                                      @AuthenticationPrincipal UserDetails principal) {

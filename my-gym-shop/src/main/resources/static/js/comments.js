@@ -21,7 +21,7 @@ function addCommentAsHtml(comment) {
     if(comment.canEdit) {
         commentHtml += `<button class="btn btn-danger" onclick="deleteComment(${comment.id})">Delete</button>\n`
     }
-    
+
     commentHtml += '</div>\n'
 
     commentSection.innerHTML += commentHtml
@@ -45,7 +45,7 @@ const csrfHeaderValue = document.getElementById('csrf').getAttribute('value')
 let commentForm = document.getElementById("commentForm")
 commentForm.addEventListener("submit", (event) => {
     event.preventDefault()
-    
+
     let text = document.getElementById("message").value
 
     fetch(`${backendLocation}/api/${productId}/comments`, {
@@ -56,7 +56,7 @@ commentForm.addEventListener("submit", (event) => {
             [csrfHeaderName]: csrfHeaderValue
         },
         body: JSON.stringify({
-            text: text   
+            text: text
         })
     }).then((res) => {
         document.getElementById("message").value = ""

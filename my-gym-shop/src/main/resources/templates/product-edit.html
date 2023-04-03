@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-<div th:replace="fragments/navbar">Navbar</div>
+<div th:replace="~{fragments/navbar}">Navbar</div>
 
 <h1>Add Product</h1>
 <form th:action="@{/products/edit/{productId}(productId=*{id})}" th:object="${product}" method="post">
@@ -16,6 +16,7 @@
     <label>Description:</label><input type="text" th:field="*{description}"/><br/>
     <label>ImageURL:</label><input type="text" th:field="*{imageUrl}"/><br/>
     <label>Price:</label><input type="number" th:field="*{price}"/><br/>
+    <label>Price:</label><input type="number" th:field="*{quantity}"/><br/>
     <label>Category:</label>
     <select th:field="*{type}">
         <option th:value="PROTEIN">Protein</option>

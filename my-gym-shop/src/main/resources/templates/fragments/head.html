@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="head">
-  <meta name="_csrf" th:content="${_csrf.token}"/>
-  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
   <meta charset="UTF-8">
+  <meta
+          id="csrf"
+          type="hidden"
+          th:name="${_csrf.headerName}"
+          th:value="${_csrf.token}" />
+
   <title>GymNation</title>
   <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
   <link rel="stylesheet" th:href="@{/css/reset-css.css}"/>

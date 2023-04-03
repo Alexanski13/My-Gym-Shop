@@ -11,7 +11,7 @@
 
 <div class="container-fluid">
     <h2 class="text-center text-white mt-5">Details</h2>
-    <input type="hidden" name="productId" id="productId" th:value="*{product.id}">
+    <input type="hidden" name="productId" id="productId" th:value="*{id}">
     <div th:object="${product}" class="offers row mx-auto d-flex flex-row justify-content-center">
 
 
@@ -33,6 +33,9 @@
                     <div class="card-text">• Description:
                         <th:block th:text="*{description}"></th:block>
                     </div>
+                    <div class="card-text">• In stock:
+                        <th:block th:text="*{quantity}"></th:block>
+                    </div>
                 </li>
             </ul>
             <div class="card-body">
@@ -53,7 +56,6 @@
 
             <h1>Comments</h1>
             <div>
-
                 <!-- Comments submission -->
                 <form id="commentForm" method="POST"
                       th:action="@{/api/{productId}/comments(productId=${product.id})}">
@@ -90,9 +92,10 @@
         </section>
         <p style="visibility: hidden">GPX Download: <a id="gpxDownload"></a></p>
     </div>
-    <!-- Scripts: track and comments-->
+    <!-- Scripts: track and comments
+    <script th:src="@{/js/track.js}"></script> -->
     <script th:src="@{/js/comments.js}"></script>
-    </div>
+</div>
 
 </div>
 
