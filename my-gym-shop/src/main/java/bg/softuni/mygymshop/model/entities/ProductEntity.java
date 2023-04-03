@@ -32,6 +32,7 @@ public class ProductEntity {
 
     @Column(nullable = false)
     private Integer quantity;
+    
 
     @OneToMany(targetEntity = CommentEntity.class, mappedBy = "product", cascade = CascadeType.ALL)
     private Set<CommentEntity> comments;

@@ -6,7 +6,6 @@ import bg.softuni.mygymshop.model.entities.UserEntity;
 import bg.softuni.mygymshop.model.views.CommentView;
 import bg.softuni.mygymshop.service.CommentService;
 import bg.softuni.mygymshop.service.UserService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,19 +26,19 @@ public class CommentRestController {
 
     private final CommentService commentService;
 
-    private final UserService authService;
+    private final UserService userService;
 
     @Autowired
-    public CommentRestController(CommentService commentService, UserService authService) {
+    public CommentRestController(CommentService commentService, UserService userService) {
         this.commentService = commentService;
-        this.authService = authService;
+        this.userService = userService;
     }
 
     @GetMapping("/api/{productId}/comments")
-    public ResponseEntity<List<CommentView>> getCommentsRoutes(@PathVariable("productId") Long productId, Principal principal) {
+    public ResponseEntity<List<CommentView>> getCommentsProducts(@PathVariable("productId") Long productId, Principal principal) {
         UserEntity user = null;
         try {
-            user = authService.getUserByUsername(principal.getName());
+            user = userService.getUserByUsername(principal.getName());
         } catch (RuntimeException e) {
             //IGNORE
         }
@@ -85,7 +84,7 @@ public class CommentRestController {
                                                      @RequestBody CommentDTO commentDTO,
                                                      @PathVariable("productId") Long productId) {
         CommentEntity comment = commentService.createComment(commentDTO,
-                productId, authService.getUserByUsername(userDetails.getUsername()));
+                productId, userService.getUserByUsername(userDetails.getUsername()));
 
         CommentView commentView = mapToCommentView(comment);
 
@@ -98,7 +97,7 @@ public class CommentRestController {
     @DeleteMapping("/api/{productId}/comments/{commentId}")
     public ResponseEntity<CommentView> deleteComment(@PathVariable("commentId") Long commentId,
                                                      @AuthenticationPrincipal UserDetails principal) {
-        UserEntity user = authService.getUserByUsername(principal.getUsername());
+        UserEntity user = userService.getUserByUsername(principal.getUsername());
         try {
             return deleteCommentInternal(commentId, user);
         } catch (RuntimeException e) {

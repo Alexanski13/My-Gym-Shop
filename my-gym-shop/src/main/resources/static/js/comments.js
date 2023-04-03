@@ -42,6 +42,7 @@ function deleteComment(commentId) {
 const csrfHeaderName = document.getElementById('csrf').getAttribute('name')
 const csrfHeaderValue = document.getElementById('csrf').getAttribute('value')
 
+
 let commentForm = document.getElementById("commentForm")
 commentForm.addEventListener("submit", (event) => {
     event.preventDefault()

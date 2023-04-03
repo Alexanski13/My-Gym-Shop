@@ -22,7 +22,7 @@ public class ProductMonitoringJob {
         this.productService = productService;
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 50000)
     public void monitorProducts() {
         List<ProductInventoryDTO> productInventories = productService.getAllProductInventories();
         productService.updateProductInventories(productInventories);
