@@ -9,6 +9,7 @@ import bg.softuni.mygymshop.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,6 +41,7 @@ public class ProductController {
         return "products";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/add")
     public String showAddProductForm(Model model) {
         if (!model.containsAttribute("addProductModel")) {
@@ -49,6 +51,8 @@ public class ProductController {
         return "product-add";
     }
 
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
     public String addProduct(@Valid CreateProductDTO productDTO,
                              BindingResult bindingResult,
@@ -74,6 +78,7 @@ public class ProductController {
         return "details";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         ProductEntity product = productService.getProductById(id);
@@ -90,6 +95,8 @@ public class ProductController {
         return "product-edit";
     }
 
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/edit/{id}")
     public String processUpdateForm(@PathVariable("id") Long id, @ModelAttribute("productDTO") CreateProductDTO productDTO) {
         productService.updateProduct(productDTO);
@@ -97,6 +104,7 @@ public class ProductController {
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public String deleteProduct(
             @PathVariable("id") Long id) {
@@ -105,6 +113,7 @@ public class ProductController {
         return "redirect:/products/all";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/status")
     public String getProductStatus(Model model) {
         List<ProductInventoryDTO> products = productService.getAllProductInventories();
