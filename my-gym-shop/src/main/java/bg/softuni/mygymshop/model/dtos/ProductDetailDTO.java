@@ -20,6 +20,17 @@ public class ProductDetailDTO {
 
     private Integer quantity;
 
+    private String authorName;
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public ProductDetailDTO setAuthorName(String authorName) {
+        this.authorName = authorName;
+        return this;
+    }
+
     public Integer getQuantity() {
         return quantity;
     }

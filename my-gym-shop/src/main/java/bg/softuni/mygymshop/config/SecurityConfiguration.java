@@ -33,7 +33,6 @@ public class SecurityConfiguration {
                         requestMatchers("/", "/users/login", "/users/login-error", "/users/register", "/users/profile", "/api/**").permitAll().
                 // only for admins
                         requestMatchers("/").hasRole(RoleType.ADMIN.name()).
-                requestMatchers("/api/**").permitAll().
                 anyRequest().authenticated().
                 and().
                 // configure login with HTML form

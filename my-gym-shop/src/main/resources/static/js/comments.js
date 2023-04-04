@@ -3,8 +3,16 @@ const backendLocation = 'http://localhost:8080'
 let productId = document.getElementById("productId").getAttribute("value")
 let commentSection = document.getElementById("commentCtnr")
 
-fetch(`${backendLocation}/api/${productId}/comments`)
-    .then((response) => response.json())
+const csrfHeaderName = document.head.querySelector('[name=_csrf_header]').content
+const csrfHeaderValue = document.head.querySelector('[name=_csrf]').content
+
+
+fetch(`${backendLocation}/api/${productId}/comments`, {
+    method: 'GET',
+    headers: {
+        "Accept": "application/json"
+    }
+}).then((response) => response.json())
     .then((body) => {
         for(comment of body) {
             addCommentAsHtml(comment)
@@ -39,8 +47,8 @@ function deleteComment(commentId) {
     })
 }
 
-const csrfHeaderName = document.getElementById('csrf').getAttribute('name')
-const csrfHeaderValue = document.getElementById('csrf').getAttribute('value')
+// const csrfHeaderName = document.getElementById('csrf').getAttribute('name')
+// const csrfHeaderValue = document.getElementById('csrf').getAttribute('value')
 
 
 let commentForm = document.getElementById("commentForm")

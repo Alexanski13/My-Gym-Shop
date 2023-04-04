@@ -1,6 +1,7 @@
 package bg.softuni.mygymshop.model.dtos;
 
 
+import bg.softuni.mygymshop.model.entities.UserEntity;
 import bg.softuni.mygymshop.model.enums.ProductCategoryType;
 import jakarta.validation.constraints.*;
 
@@ -32,6 +33,7 @@ public class CreateProductDTO {
 
   public CreateProductDTO() {
   }
+
 
   public Long getId() {
     return id;

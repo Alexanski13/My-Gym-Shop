@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="~{fragments/head}">
-    <script th:src="@{/js/comments.js}"></script>
+<!--    <script th:src="@{/js/comments.js}"></script>-->
 </head>
 <body>
 
@@ -12,7 +12,7 @@
 
 <div class="container-fluid">
     <h2 class="text-center text-white mt-5">Details</h2>
-    <input type="hidden" name="productId" id="productId" th:value="*{id}">
+    <input type="hidden" name="productId" id="productId" th:value="*{product.id}">
     <div th:object="${product}" class="offers row mx-auto d-flex flex-row justify-content-center">
 
 
@@ -59,10 +59,11 @@
             <div>
                 <!-- Comments submission -->
                 <form id="commentForm" method="POST"
-                      th:action="@{/api/{productId}/comments(productId=${product.id})}">
+                      action="/">
                     <div class="form-group">
                         <h4>Leave a comment</h4>
                         <label for="message">Message</label>
+
                         <textarea name="message"
                                   id="message"
                                   cols="30"
@@ -94,6 +95,7 @@
     </div>
     <!-- Scripts: track and comments
     <script th:src="@{/js/track.js}"></script> -->
+    <script th:src="@{/js/comments.js}"></script>
 
 </div>
 

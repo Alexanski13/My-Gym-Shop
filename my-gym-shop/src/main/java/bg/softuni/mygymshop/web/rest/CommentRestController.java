@@ -38,7 +38,7 @@ public class CommentRestController {
     public ResponseEntity<List<CommentView>> getCommentsProducts(@PathVariable("productId") Long productId, Principal principal) {
         UserEntity user = null;
         try {
-            user = userService.getUserByUsername(principal.getName());
+            user = userService.getUser(principal.getName());
         } catch (RuntimeException e) {
             //IGNORE
         }
@@ -52,7 +52,7 @@ public class CommentRestController {
     private Function<CommentEntity, CommentView> createCommentViewForUser(Principal principal, UserEntity user) {
         return c -> {
             boolean canEdit = principal != null &&
-                    (isAdmin(user) || user.getId() == c.getAuthor().getId());
+                    (isAdmin(user) || user.getId().equals(c.getAuthor().getId()));
             return mapToCommentView(c, canEdit);
         };
     }
@@ -66,9 +66,7 @@ public class CommentRestController {
                 c.getCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm")), canEdit);
     }
 
-    private boolean isAdmin(UserEntity user) {
-        return user.getRoles().stream().anyMatch(r -> r.getRole() == ADMIN);
-    }
+
 
     @GetMapping("/api/{productId}/comments/{commentId}")
     private ResponseEntity<CommentView> getComment(@PathVariable("commentId") Long commentId) {
@@ -84,7 +82,7 @@ public class CommentRestController {
                                                      @RequestBody CommentDTO commentDTO,
                                                      @PathVariable("productId") Long productId) {
         CommentEntity comment = commentService.createComment(commentDTO,
-                productId, userService.getUserByUsername(userDetails.getUsername()));
+                productId, userService.getUser(userDetails.getUsername()));
 
         CommentView commentView = mapToCommentView(comment);
 
@@ -97,7 +95,7 @@ public class CommentRestController {
     @DeleteMapping("/api/{productId}/comments/{commentId}")
     public ResponseEntity<CommentView> deleteComment(@PathVariable("commentId") Long commentId,
                                                      @AuthenticationPrincipal UserDetails principal) {
-        UserEntity user = userService.getUserByUsername(principal.getUsername());
+        UserEntity user = userService.getUser(principal.getUsername());
         try {
             return deleteCommentInternal(commentId, user);
         } catch (RuntimeException e) {
@@ -108,10 +106,14 @@ public class CommentRestController {
     private ResponseEntity<CommentView> deleteCommentInternal(Long commentId, UserEntity user) {
         CommentEntity comment = commentService.getComment(commentId);
 
-        if(isAdmin(user) || user.getId() == comment.getAuthor().getId()) {
+        if(isAdmin(user) || user.getId().equals(comment.getAuthor().getId())) {
             CommentEntity deleted = commentService.deleteComment(commentId);
             return ResponseEntity.ok(mapToCommentView(deleted));
         }
         return ResponseEntity.status(403).build();
+    }
+
+    private boolean isAdmin(UserEntity user) {
+        return user.getRoles().stream().anyMatch(r -> r.getRole() == ADMIN);
     }
 }
