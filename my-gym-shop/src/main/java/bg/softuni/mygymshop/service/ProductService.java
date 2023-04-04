@@ -167,9 +167,9 @@ public class ProductService {
                     .setName(productDTO.getName())
                     .setDescription(productDTO.getDescription())
                     .setType(productDTO.getType())
-                    .setName(product.getName())
-                    .setQuantity(product.getQuantity())
+                    .setName(productDTO.getName())
                     .setPrice(productDTO.getPrice())
+                    .setQuantity(productDTO.getQuantity())
                     .setImageUrl(productDTO.getImageUrl());
             productRepository.saveAndFlush(product);
         }

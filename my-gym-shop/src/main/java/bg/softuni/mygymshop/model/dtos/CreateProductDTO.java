@@ -26,8 +26,12 @@ public class CreateProductDTO {
   @NotEmpty
   private String imageUrl;
 
+  @Positive
   @NotNull
   private Integer quantity;
+
+  public CreateProductDTO() {
+  }
 
   public Long getId() {
     return id;
@@ -36,10 +40,6 @@ public class CreateProductDTO {
   public CreateProductDTO setId(Long id) {
     this.id = id;
     return this;
-  }
-
-  public boolean isLowQuantity() {
-    return quantity <= 10;
   }
 
   public Integer getQuantity() {

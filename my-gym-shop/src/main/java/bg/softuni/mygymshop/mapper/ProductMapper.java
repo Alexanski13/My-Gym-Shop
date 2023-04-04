@@ -13,7 +13,8 @@ public class ProductMapper {
                 .setName(product.getName())
                 .setDescription(product.getDescription())
                 .setImageUrl(product.getImageUrl())
-                .setPrice(product.getPrice());
+                .setPrice(product.getPrice())
+                .setQuantity(product.getQuantity());
     }
 
     public ProductEntity toEntity(ProductDetailDTO productDto) {
@@ -23,6 +24,7 @@ public class ProductMapper {
                 .setName(productDto.getName())
                 .setDescription(productDto.getDescription())
                 .setImageUrl(productDto.getImageUrl())
-                .setPrice(productDto.getPrice());
+                .setPrice(productDto.getPrice())
+                .setQuantity(productDto.getQuantity());
     }
 }
