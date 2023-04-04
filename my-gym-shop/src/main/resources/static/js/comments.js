@@ -47,9 +47,6 @@ function deleteComment(commentId) {
     })
 }
 
-// const csrfHeaderName = document.getElementById('csrf').getAttribute('name')
-// const csrfHeaderValue = document.getElementById('csrf').getAttribute('value')
-
 
 let commentForm = document.getElementById("commentForm")
 commentForm.addEventListener("submit", (event) => {
@@ -73,5 +70,6 @@ commentForm.addEventListener("submit", (event) => {
         fetch(`${backendLocation}${location}`)
             .then(res => res.json())
             .then(body => addCommentAsHtml(body))
+            .then(x => window.location.href=`/products/details/${productId}`)
     })
 })
