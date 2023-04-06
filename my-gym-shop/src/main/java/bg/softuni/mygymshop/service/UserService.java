@@ -5,10 +5,11 @@ import bg.softuni.mygymshop.model.dtos.UserRegistrationDTO;
 import bg.softuni.mygymshop.model.entities.RoleEntity;
 import bg.softuni.mygymshop.model.entities.UserEntity;
 import bg.softuni.mygymshop.model.enums.RoleType;
-import bg.softuni.mygymshop.model.views.UserProfileViewDTO;
 import bg.softuni.mygymshop.repository.UserRepository;
 import bg.softuni.mygymshop.repository.UserRoleRepository;
 import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +17,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -32,17 +35,20 @@ public class UserService {
 
     private final EmailService emailService;
 
+    private final ModelMapper modelMapper;
+
     @Autowired
     public UserService(UserRepository userRepository,
                        UserRoleRepository userRoleRepository,
                        UserDetailsService userDetailsService,
                        PasswordEncoder passwordEncoder,
-                       EmailService emailService) {
+                       EmailService emailService, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
+        this.modelMapper = modelMapper;
     }
 
     public void registerUser(UserRegistrationDTO userRegistrationDTO,
@@ -84,7 +90,7 @@ public class UserService {
 
     private void initRoles() {
         if (userRoleRepository.count() == 0) {
-            var moderatorRole = new RoleEntity().setRole(RoleType.MODERATOR);
+            var moderatorRole = new RoleEntity().setRole(RoleType.USER);
             var adminRole = new RoleEntity().setRole(RoleType.ADMIN);
 
             userRoleRepository.save(moderatorRole);
@@ -95,7 +101,7 @@ public class UserService {
     private void initUsers() {
         if (userRepository.count() == 0) {
             initAdmin();
-            initModerator();
+//            initModerator();
             initNormalUser();
         }
     }
@@ -108,7 +114,7 @@ public class UserService {
                 setLastName("Adminov").
                 setEmail("admin@example.com").
                 setAge(32).
-                setRoles(userRoleRepository.findAll());
+                setRoles(new HashSet<>(userRoleRepository.findAll()));
 
         userRepository.save(adminUser);
     }
@@ -116,7 +122,7 @@ public class UserService {
     private void initModerator() {
 
         var moderatorRole = userRoleRepository.
-                findUserRoleEntityByRole(RoleType.MODERATOR).orElseThrow();
+                findUserRoleEntityByRole(RoleType.USER).orElseThrow();
 
         var moderatorUser = new UserEntity().
                 setUsername("Moderator").
@@ -125,7 +131,7 @@ public class UserService {
                 setLastName("Moderatorov").
                 setEmail("moderator@example.com").
                 setAge(30).
-                setRoles(List.of(moderatorRole));
+                setRoles((Set<RoleEntity>) moderatorRole);
 
         userRepository.save(moderatorUser);
     }
@@ -161,5 +167,47 @@ public class UserService {
     public UserEntity getUserByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+    }
+
+    // IMPLEMENTATION FOR ROLE MANAGEMENT
+
+    public List<UserDTO> getUsers() {
+        List<UserEntity> users = userRepository.findAll();
+        return users.stream().map(user -> modelMapper.map(user, UserDTO.class)).collect(Collectors.toList());
+    }
+
+    public UserDTO getUserById(Long id) {
+        UserEntity user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        return modelMapper.map(user, UserDTO.class);
+    }
+
+//    public UserDTO saveUser(UserDTO userDTO) {
+//        UserEntity user = modelMapper.map(userDTO, User.class);
+//        user.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
+//        User savedUser = userRepository.save(user);
+//        return modelMapper.map(savedUser, UserDTO.class);
+//    }
+
+    public UserDTO updateUser(UserDTO userDTO) {
+        UserEntity user = userRepository.findById(userDTO.getId()).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        user.setUsername(userDTO.getUsername());
+        user.setEmail(userDTO.getEmail());
+        user.setRoles(userDTO.getRoles().stream().map(roleDTO -> new RoleEntity()
+                .setId(roleDTO.getId())
+                .setRole(roleDTO.getName())).collect(Collectors.toSet()));
+        UserEntity updatedUser = userRepository.save(user);
+        return modelMapper.map(updatedUser, UserDTO.class);
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public UserDTO assignRoleToUser(Long userId, RoleType role) {
+        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        user.getRoles().add(new RoleEntity()
+                .setRole(role));
+        UserEntity updatedUser = userRepository.save(user);
+        return modelMapper.map(updatedUser, UserDTO.class);
     }
 }

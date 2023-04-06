@@ -1,7 +1,9 @@
 package bg.softuni.mygymshop.web;
 
+import bg.softuni.mygymshop.model.dtos.UserDTO;
 import bg.softuni.mygymshop.model.dtos.UserRegistrationDTO;
 import bg.softuni.mygymshop.model.entities.UserEntity;
+import bg.softuni.mygymshop.model.enums.RoleType;
 import bg.softuni.mygymshop.model.views.UserProfileViewDTO;
 import bg.softuni.mygymshop.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,10 +16,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/users")
@@ -102,5 +106,58 @@ public class UserController {
         model.addAttribute("userProfile", userProfileView);
 
         return "profile";
+    }
+
+//IMPLEMENT USER MANAGEMENT
+
+    @GetMapping("/admin/manage")
+    public String getUsers(Model model) {
+        List<UserDTO> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "users-list";
+    }
+
+    @GetMapping("/admin/manage/{id}")
+    public String getUser(@PathVariable("id") Long id, Model model) {
+        UserDTO user = userService.getUserById(id);
+        model.addAttribute("user", user);
+        return "user-detail";
+    }
+
+    @GetMapping("/admin/{id}/edit")
+    public String editUserForm(@PathVariable("id") Long id, Model model) {
+        UserDTO user = userService.getUserById(id);
+        model.addAttribute("user", user);
+        return "user-edit";
+    }
+
+    @PostMapping("/admin/{id}/edit")
+    public String editUser(@PathVariable("id") Long id, @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "user-edit";
+        }
+        userDTO.setId(id);
+        UserDTO updatedUser = userService.updateUser(userDTO);
+        return "redirect:/users/admin/manage/" + updatedUser.getId();
+    }
+
+    @GetMapping("/admin/{id}/delete")
+    public String deleteUser(@PathVariable("id") Long id) {
+        userService.deleteUser(id);
+        return "redirect:/users/admin/manage";
+    }
+
+    @GetMapping("/admin/{id}/assign-role")
+    public String assignRoleForm(@PathVariable("id") Long id, Model model) {
+        UserDTO user = userService.getUserById(id);
+        model.addAttribute("user", user);
+        model.addAttribute("roles", RoleType.values());
+        return "assign-role";
+    }
+
+    @PostMapping("/admin/{id}/assign-role")
+    public String assignRole(@PathVariable("id") Long id, @RequestParam("role") RoleType role, Model model) {
+        userService.assignRoleToUser(id, role);
+        return "redirect:/users/admin/manage/" + id;
     }
 }

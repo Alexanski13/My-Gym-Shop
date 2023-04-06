@@ -1,5 +1,8 @@
 package bg.softuni.mygymshop.model.dtos;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class UserDTO {
 
     private Long id;
@@ -13,6 +16,20 @@ public class UserDTO {
     private String lastName;
 
     private int age;
+
+    private Set<RoleDTO> roles = new HashSet<>();
+
+    public UserDTO() {
+    }
+
+    public Set<RoleDTO> getRoles() {
+        return roles;
+    }
+
+    public UserDTO setRoles(Set<RoleDTO> roles) {
+        this.roles = roles;
+        return this;
+    }
 
     public Long getId() {
         return id;

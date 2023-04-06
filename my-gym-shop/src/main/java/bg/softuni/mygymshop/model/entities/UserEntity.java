@@ -34,10 +34,10 @@ public class UserEntity {
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<RoleEntity> roles;
+    private Set<RoleEntity> roles;
 
     public UserEntity() {
-        this.roles = new ArrayList<>();
+        this.roles = new HashSet<>();
     }
 
     public UserEntity(String username, String password, String firstName, String lastName, String email, Integer age) {
@@ -114,11 +114,11 @@ public class UserEntity {
         return this;
     }
 
-    public List<RoleEntity> getRoles() {
+    public Set<RoleEntity> getRoles() {
         return roles;
     }
 
-    public UserEntity setRoles(List<RoleEntity> roles) {
+    public UserEntity setRoles(Set<RoleEntity> roles) {
         this.roles = roles;
         return this;
     }
