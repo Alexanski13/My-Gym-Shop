@@ -9,8 +9,12 @@
 <form method="post" th:action="@{/users/admin/{id}/assign-role(id=${user.id})}" th:object="${user}">
     <table>
         <tr>
-            <td>Name:</td>
-            <td><input type="text" th:field="*{roles}" /></td>
+            <td>Role:</td>
+            <td>
+                <select th:field="*{roles}" name="role">
+                    <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+                </select>
+            </td>
         </tr>
     </table>
     <button type="submit">Save Changes</button>

@@ -194,7 +194,7 @@ public class UserService {
         user.setEmail(userDTO.getEmail());
         user.setRoles(userDTO.getRoles().stream().map(roleDTO -> new RoleEntity()
                 .setId(roleDTO.getId())
-                .setRole(roleDTO.getName())).collect(Collectors.toSet()));
+                .setRole(roleDTO.getRole())).collect(Collectors.toSet()));
         UserEntity updatedUser = userRepository.save(user);
         return modelMapper.map(updatedUser, UserDTO.class);
     }
@@ -206,6 +206,7 @@ public class UserService {
     public UserDTO assignRoleToUser(Long userId, RoleType role) {
         UserEntity user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
         user.getRoles().add(new RoleEntity()
+                .setId(null)
                 .setRole(role));
         UserEntity updatedUser = userRepository.save(user);
         return modelMapper.map(updatedUser, UserDTO.class);

@@ -33,7 +33,7 @@ public class UserEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<RoleEntity> roles;
 
     public UserEntity() {

@@ -5,14 +5,14 @@ import bg.softuni.mygymshop.model.enums.RoleType;
 public class RoleDTO {
 
     private Long id;
-    private RoleType name;
+    private RoleType role;
 
     public RoleDTO() {
     }
 
-    public RoleDTO(Long id, RoleType name) {
+    public RoleDTO(Long id, RoleType role) {
         this.id = id;
-        this.name = name;
+        this.role = role;
     }
 
     public Long getId() {
@@ -24,12 +24,12 @@ public class RoleDTO {
         return this;
     }
 
-    public RoleType getName() {
-        return name;
+    public RoleType getRole() {
+        return role;
     }
 
-    public RoleDTO setName(RoleType name) {
-        this.name = name;
+    public RoleDTO setRole(RoleType role) {
+        this.role = role;
         return this;
     }
 }

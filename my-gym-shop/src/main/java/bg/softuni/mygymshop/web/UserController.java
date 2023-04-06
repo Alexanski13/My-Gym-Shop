@@ -156,7 +156,7 @@ public class UserController {
     }
 
     @PostMapping("/admin/{id}/assign-role")
-    public String assignRole(@PathVariable("id") Long id, @RequestParam("role") RoleType role, Model model) {
+    public String assignRole(@PathVariable("id") Long id, @RequestParam("roles") RoleType role) {
         userService.assignRoleToUser(id, role);
         return "redirect:/users/admin/manage/" + id;
     }
