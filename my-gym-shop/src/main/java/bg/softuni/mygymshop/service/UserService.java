@@ -182,13 +182,6 @@ public class UserService {
         return modelMapper.map(user, UserDTO.class);
     }
 
-//    public UserDTO saveUser(UserDTO userDTO) {
-//        UserEntity user = modelMapper.map(userDTO, User.class);
-//        user.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
-//        User savedUser = userRepository.save(user);
-//        return modelMapper.map(savedUser, UserDTO.class);
-//    }
-
     public UserDTO updateUser(UserDTO userDTO) {
         UserEntity user = userRepository.findById(userDTO.getId()).orElseThrow(() -> new EntityNotFoundException("User not found"));
         user.setUsername(userDTO.getUsername());
@@ -204,30 +197,25 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public UserDTO assignRoleToUser(Long userId, RoleType role) {
+    public UserDTO assignRoleToUser(Long userId, RoleType role, boolean addRole) {
         UserEntity user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         Optional<RoleEntity> existingRole = roleRepository.findByRole(role);
 
         if (existingRole.isPresent()) {
-            if (user.getRoles().stream().noneMatch(r -> r.getRole() == role)) {
-                user.getRoles().add(existingRole.get());
-                userRepository.save(user);
+            if (addRole) {
+                if (user.getRoles().stream().noneMatch(r -> r.getRole() == role)) {
+                    user.getRoles().add(existingRole.get());
+                }
+            } else {
+                user.getRoles().removeIf(r -> r.getRole() == role);
             }
+            userRepository.save(user);
         } else {
             throw new IllegalArgumentException("Role does not exist!");
         }
 
-//        Optional<RoleEntity> existingRole = user.getRoles().stream()
-//                .filter(r -> r.getRole() == role)
-//                .findFirst();
-//        if (existingRole.isPresent()) {
-//            existingRole.get().setRole(role);
-//        } else {
-//            RoleEntity newRole = new RoleEntity().setRole(role);
-//            user.getRoles().add(newRole);
-//        }
-//        UserEntity updatedUser = userRepository.saveAndFlush(user);
         return modelMapper.map(user, UserDTO.class);
     }
+
 }
