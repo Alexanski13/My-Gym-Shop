@@ -17,9 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -29,6 +27,8 @@ public class UserService {
     private final UserRepository userRepository;
 
     private final UserRoleRepository userRoleRepository;
+
+    private final UserRoleRepository roleRepository;
 
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
@@ -40,11 +40,12 @@ public class UserService {
     @Autowired
     public UserService(UserRepository userRepository,
                        UserRoleRepository userRoleRepository,
-                       UserDetailsService userDetailsService,
+                       UserRoleRepository roleRepository, UserDetailsService userDetailsService,
                        PasswordEncoder passwordEncoder,
                        EmailService emailService, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
+        this.roleRepository = roleRepository;
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
@@ -205,10 +206,28 @@ public class UserService {
 
     public UserDTO assignRoleToUser(Long userId, RoleType role) {
         UserEntity user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
-        user.getRoles().add(new RoleEntity()
-                .setId(null)
-                .setRole(role));
-        UserEntity updatedUser = userRepository.save(user);
-        return modelMapper.map(updatedUser, UserDTO.class);
+
+        Optional<RoleEntity> existingRole = roleRepository.findByRole(role);
+
+        if (existingRole.isPresent()) {
+            if (user.getRoles().stream().noneMatch(r -> r.getRole() == role)) {
+                user.getRoles().add(existingRole.get());
+                userRepository.save(user);
+            }
+        } else {
+            throw new IllegalArgumentException("Role does not exist!");
+        }
+
+//        Optional<RoleEntity> existingRole = user.getRoles().stream()
+//                .filter(r -> r.getRole() == role)
+//                .findFirst();
+//        if (existingRole.isPresent()) {
+//            existingRole.get().setRole(role);
+//        } else {
+//            RoleEntity newRole = new RoleEntity().setRole(role);
+//            user.getRoles().add(newRole);
+//        }
+//        UserEntity updatedUser = userRepository.saveAndFlush(user);
+        return modelMapper.map(user, UserDTO.class);
     }
 }
