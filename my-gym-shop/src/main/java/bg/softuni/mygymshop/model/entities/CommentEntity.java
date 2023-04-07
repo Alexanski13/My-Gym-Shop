@@ -10,7 +10,7 @@ public class CommentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private boolean approved;
 
@@ -27,11 +27,11 @@ public class CommentEntity {
     private ProductEntity product;
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public CommentEntity setId(long id) {
+    public CommentEntity setId(Long id) {
         this.id = id;
         return this;
     }
