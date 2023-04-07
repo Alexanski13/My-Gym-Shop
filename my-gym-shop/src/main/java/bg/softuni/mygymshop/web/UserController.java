@@ -9,6 +9,7 @@ import bg.softuni.mygymshop.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolderStrategy;
@@ -110,6 +111,7 @@ public class UserController {
 
 //IMPLEMENT USER MANAGEMENT
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/manage")
     public String getUsers(Model model) {
         List<UserDTO> users = userService.getAllUsers();
@@ -117,6 +119,7 @@ public class UserController {
         return "users-list";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/manage/{id}")
     public String getUser(@PathVariable("id") Long id, Model model) {
         UserDTO user = userService.getUserById(id);
@@ -141,12 +144,14 @@ public class UserController {
         return "redirect:/users/admin/manage/" + updatedUser.getId();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/{id}/delete")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return "redirect:/users/admin/manage";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/{id}/assign-role")
     public String assignRoleForm(@PathVariable("id") Long id, Model model) {
         UserDTO user = userService.getUserById(id);
@@ -155,6 +160,7 @@ public class UserController {
         return "assign-role";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/admin/{id}/assign-role")
     public String assignRole(@PathVariable("id") Long id, @RequestParam("roles") RoleType role,
                              @RequestParam("add") boolean addRole) {
