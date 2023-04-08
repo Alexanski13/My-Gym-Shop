@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit User</title>
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head}"></head>
+
 <body>
+
+<div th:replace="~{fragments/navbar}"></div>
+
 <h1>Edit User</h1>
 <form method="post" th:action="@{/users/admin/{id}/edit(id=${user.id})}" th:object="${user}">
     <table>

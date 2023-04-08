@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head}">
-</head>
+
+<head th:replace="~{fragments/head}"></head>
 
 <body>
 
-<div th:replace="~{fragments/navbar}">Navbar</div>
+<div th:replace="~{fragments/navbar}"></div>
 
 <h1>Update Product</h1>
 <form th:action="@{/products/edit/{id}(id=*{id})}" th:object="${productDTO}" method="post">
