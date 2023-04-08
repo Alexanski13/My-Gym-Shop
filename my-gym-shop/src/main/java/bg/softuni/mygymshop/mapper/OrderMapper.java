@@ -11,6 +11,8 @@ import bg.softuni.mygymshop.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.NoSuchElementException;
+
 @Component
 public class OrderMapper {
 
@@ -41,6 +43,14 @@ public class OrderMapper {
         OrderEntity order = new OrderEntity();
         ProductEntity product = productRepository.findById(orderDto.getProductId())
                 .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+
+        if (product.getQuantity() < 1) {
+            throw new NoSuchElementException("Product is out of stock");
+        }
+
+        product.setQuantity(product.getQuantity() - 1);
+        productRepository.save(product);
+
         ProductDetailDTO productDetailDTO = productMapper.toDto(product);
         order.setProduct(productMapper.toEntity(productDetailDTO));
 

@@ -1,29 +1,24 @@
-<!--<footer class="footer bg-blur rounded fixed-bottom">-->
-<!--    <div class="container-fluid text-center footer bg-dark fixed-bottom">-->
-<!--        <div class="h5 text-white">-->
-<!--            &copy; The place where dreams become reality. GymNation!!! All rights reserved.-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</footer>-->
 <footer class="footer bg-blur rounded fixed-bottom">
-    <div class="container-fluid text-center footer bg-dark fixed-bottom">
-        <div class="row" th:fragment="footer">
-            <div class="col-md-3 d-flex align-items-center text-white">
-                <h1>GymNation</h1>
+    <div class="container-fluid text-center footer bg-dark fixed-bottom" style="padding-top: 30px;">
+        <div class="row" th:fragment="footer" style="max-height: 170px;">
+            <div class="col-md-3 text-white" style="padding-top: 30px;">
+                <h2>GymNation</h2>
             </div>
             <div class="col-md-3 text-white">
-                <h4>Links</h4>
-                <ul>
-                    <li class="text-white"><a th:text="#{navbar_home}" th:href="@{/}">Home</a></li>
+                <h5 style="margin: 0; text-align:left;">Links</h5>
+                <ul style="text-align: left;">
+                    <li class="text-white">
+                        <a th:text="#{navbar_home}" th:href="@{/}">Home</a>
+                    </li>
                     <li class="text-white"><a href="#">About</a></li>
                     <li class="text-white"><a href="#">Contact</a></li>
                 </ul>
             </div>
             <div class="col-md-3 text-white">
-                <h4>Contact</h4>
-                <p class="text-primary">ul. Proteinus Maximus 21</p>
-                <p class="text-primary">Sofia, Bulgaria 131115</p>
-                <p class="text-primary">+359 real number</p>
+                <h5>Contact</h5>
+                <p class="text-primary" style="margin: 0">ul. Proteinus Maximus 21</p>
+                <p class="text-primary" style="margin: 0">Sofia, Bulgaria 131115</p>
+                <p class="text-primary" style="margin: 0">+359 real number</p>
             </div>
         </div>
     </div>
