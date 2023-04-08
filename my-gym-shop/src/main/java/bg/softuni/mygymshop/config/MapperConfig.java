@@ -4,7 +4,6 @@ import bg.softuni.mygymshop.mapper.OrderMapper;
 import bg.softuni.mygymshop.mapper.ProductMapper;
 import bg.softuni.mygymshop.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
