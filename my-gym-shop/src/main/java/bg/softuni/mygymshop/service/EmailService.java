@@ -38,10 +38,9 @@ public class EmailService {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
-
     }
 
-    private String generateEmailText(String userName) {
+    public String generateEmailText(String userName) {
         Context ctx = new Context();
         ctx.setLocale(Locale.getDefault());
         ctx.setVariable("userName", userName);
@@ -53,7 +52,7 @@ public class EmailService {
         return templateEngine.process("email/registration", ctx);
     }
 
-    private String generateActivationCode() {
+    public String generateActivationCode() {
         return UUID.randomUUID().toString();
     }
 }

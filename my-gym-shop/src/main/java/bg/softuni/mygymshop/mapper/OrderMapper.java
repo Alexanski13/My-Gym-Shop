@@ -32,6 +32,7 @@ public class OrderMapper {
 
     public OrderDTO toDto(OrderEntity order) {
         return new OrderDTO()
+                .setId(order.getId())
                 .setUserId(order.getBuyer().getId())
                 .setProductId(order.getProduct().getProductId())
                 .setOrderDate(order.getOrderDate())
@@ -41,6 +42,7 @@ public class OrderMapper {
 
     public OrderEntity toEntity(OrderDTO orderDto) {
         OrderEntity order = new OrderEntity();
+        order.setId(orderDto.getId());
         ProductEntity product = productRepository.findById(orderDto.getProductId())
                 .orElseThrow(() -> new EntityNotFoundException("Product not found"));
 

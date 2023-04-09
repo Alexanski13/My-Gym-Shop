@@ -10,7 +10,7 @@
 
 
 <div class="container-fluid">
-    <h2 class="text-center text-white mt-5">All Offers</h2>
+    <h2 class="text-center text-white mt-5">All Products</h2>
     <div th:each="product: ${products.getContent()}"
          th:object="${product}"
          class="offers row mx-auto d-flex flex-row justify-content-center">
@@ -96,9 +96,9 @@
     </nav>
 </div>
 
-<div>
-    <footer th:replace="~{fragments/footer}"></footer>
-</div>
+<!--<div>-->
+<!--    <footer th:replace="~{fragments/footer}"></footer>-->
+<!--</div>-->
 
 </body>
 </html>

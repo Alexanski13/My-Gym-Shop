@@ -33,7 +33,7 @@ public class ProductController {
     public String getAllProducts(Model model,
                                  @PageableDefault(
                                          sort = "productId",
-                                         size = 3
+                                         size = 2
                                  ) Pageable pageable) {
 
         model.addAttribute("products", productService.getAllProducts(pageable));

@@ -19,25 +19,16 @@ import org.springframework.stereotype.Service;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final ProductRepository productRepository;
-    private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
     private final OrderMapper orderMapper;
 
-    private final ProductMapper productMapper;
-
     @Autowired
     public OrderService(OrderRepository orderRepository,
-                        ProductRepository productRepository,
-                        UserRepository userRepository,
-                        ModelMapper modelMapper, OrderMapper orderMapper, ProductMapper productMapper) {
+                        ModelMapper modelMapper, OrderMapper orderMapper) {
         this.orderRepository = orderRepository;
-        this.productRepository = productRepository;
-        this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.orderMapper = orderMapper;
-        this.productMapper = productMapper;
     }
 
     public OrderDTO createOrder(OrderDTO orderDto) {

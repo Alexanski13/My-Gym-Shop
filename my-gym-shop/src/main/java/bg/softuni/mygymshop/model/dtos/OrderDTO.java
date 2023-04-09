@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 
 public class OrderDTO {
 
+    private Long id;
+
     private Long productId;
     private Long userId;
     private LocalDateTime orderDate = LocalDateTime.now();
@@ -14,6 +16,15 @@ public class OrderDTO {
     private BigDecimal price;
 
     private Integer quantity;
+
+    public Long getId() {
+        return id;
+    }
+
+    public OrderDTO setId(Long id) {
+        this.id = id;
+        return this;
+    }
 
     public Integer getQuantity() {
         return quantity;
