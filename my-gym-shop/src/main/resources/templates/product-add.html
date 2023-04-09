@@ -11,23 +11,42 @@
         id="csrf"
         type="hidden"
         th:name="${_csrf.parameterName}"
-        th:value="${_csrf.token}" />
+        th:value="${_csrf.token}"/>
 
 <h1>Add Product</h1>
-<form th:action="@{/products/add}" th:object="${addProductModel}" method="post">
-    <label>Name:</label><input name="name" type="text" th:field="*{name}"/><br/>
-    <label>Description:</label><input type="text" th:field="*{description}"/><br/>
-    <label>ImageURL:</label><input type="text" th:field="*{imageUrl}"/><br/>
-    <label>Price:</label><input type="number" th:field="*{price}"/><br/>
-    <label>Quantity:</label><input type="number" th:field="*{quantity}"/><br/>
-    <label>Category:</label>
-    <select th:field="*{type}">
-        <option th:value="PROTEIN">Protein</option>
-        <option th:value="CREATINE">Creatine</option>
-        <option th:value="VITAMIN">Vitamin</option>
-    </select><br/>
-    <input type="submit" value="Create Product"/>
-</form>
+<div class="d-flex justify-content-center ">
+    <div class="row g-3">
+        <form class="registration-form" style="padding-top: 60px;" th:action="@{/products/add}"
+              th:object="${addProductModel}"
+              method="post">
+            <div class="col-auto">
+            <label class="col-form-label text-white" th:text="#{product_name}">Name:</label><input name="name"
+                                                                                                   type="text"
+                                                                                                   th:field="*{name}"/><br/>
+            <label class="col-form-label text-white" th:text="#{product_description}">Description:</label><input
+                type="text"
+                th:field="*{description}"/><br/>
+            <label class="col-form-label text-white" th:text="#{product_image}">ImageURL:</label><input type="text"
+                                                                                                        th:field="*{imageUrl}"/><br/>
+            <label class="col-form-label text-white" th:text="#{product_price}">Price:</label><input type="number"
+                                                                                                     th:field="*{price}"/><br/>
+            <label class="col-form-label text-white" th:text="#{product_quantity}">Quantity:</label><input type="number"
+                                                                                                           th:field="*{quantity}"/><br/>
+            <label class="col-form-label text-white" th:text="#{product_category}">Category:</label>
+            <select th:field="*{type}">
+                <option th:value="PROTEIN">Protein</option>
+                <option th:value="CREATINE">Creatine</option>
+                <option th:value="VITAMIN">Vitamin</option>
+            </select><br/>
+            </div>
+            <div class="d-flex justify-content-center mt-4">
+            <button class="btn btn-primary btn-block w-50" type="submit" th:text="#{product_create}">Create Product</button>
+            </div>
+            </button>
+        </form>
+    </div>
+</div>
+
 
 <div>
     <footer th:replace="~{fragments/footer}"></footer>
