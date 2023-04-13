@@ -4,11 +4,10 @@ import bg.softuni.mygymshop.model.dtos.CreateProductDTO;
 import bg.softuni.mygymshop.model.dtos.ProductDetailDTO;
 import bg.softuni.mygymshop.model.dtos.ProductInventoryDTO;
 import bg.softuni.mygymshop.model.entities.CategoryEntity;
-import bg.softuni.mygymshop.model.entities.OrderEntity;
 import bg.softuni.mygymshop.model.entities.ProductEntity;
 import bg.softuni.mygymshop.model.enums.ProductCategoryType;
 import bg.softuni.mygymshop.model.views.ProductDetailsViewDTO;
-import bg.softuni.mygymshop.repository.ProductCategoryRepository;
+import bg.softuni.mygymshop.repository.CategoryRepository;
 import bg.softuni.mygymshop.repository.ProductRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
@@ -26,7 +25,7 @@ import static bg.softuni.mygymshop.model.constants.ProductCategoryDescription.*;
 @Service
 public class ProductService {
 
-    private final ProductCategoryRepository productCategoryRepository;
+    private final CategoryRepository categoryRepository;
 
     private final ProductRepository productRepository;
 
@@ -34,16 +33,16 @@ public class ProductService {
 
 
     @Autowired
-    public ProductService(ProductCategoryRepository productCategoryRepository,
+    public ProductService(CategoryRepository categoryRepository,
                           ProductRepository productRepository, ModelMapper modelMapper) {
-        this.productCategoryRepository = productCategoryRepository;
+        this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
     }
 
     @PostConstruct
     private void initCategories() {
-        if (productCategoryRepository.count() == 0) {
+        if (categoryRepository.count() == 0) {
             var creatineCategory = new CategoryEntity().setType(ProductCategoryType.CREATINE)
                     .setDescription(CREATINE_DESCRIPTION);
             var proteinCategory = new CategoryEntity().setType(ProductCategoryType.PROTEIN)
@@ -51,9 +50,9 @@ public class ProductService {
             var vitaminCategory = new CategoryEntity().setType(ProductCategoryType.VITAMIN)
                     .setDescription(VITAMIN_DESCRIPTION);
 
-            productCategoryRepository.save(creatineCategory);
-            productCategoryRepository.save(proteinCategory);
-            productCategoryRepository.save(vitaminCategory);
+            categoryRepository.save(creatineCategory);
+            categoryRepository.save(proteinCategory);
+            categoryRepository.save(vitaminCategory);
         }
     }
 

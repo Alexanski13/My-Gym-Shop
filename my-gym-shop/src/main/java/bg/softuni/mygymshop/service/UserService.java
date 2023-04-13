@@ -91,10 +91,10 @@ public class UserService {
 
     private void initRoles() {
         if (userRoleRepository.count() == 0) {
-            var moderatorRole = new RoleEntity().setRole(RoleType.USER);
+            var userRole = new RoleEntity().setRole(RoleType.USER);
             var adminRole = new RoleEntity().setRole(RoleType.ADMIN);
 
-            userRoleRepository.save(moderatorRole);
+            userRoleRepository.save(userRole);
             userRoleRepository.save(adminRole);
         }
     }
@@ -102,7 +102,6 @@ public class UserService {
     private void initUsers() {
         if (userRepository.count() == 0) {
             initAdmin();
-//            initModerator();
             initNormalUser();
         }
     }
