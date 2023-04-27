@@ -1,4 +1,4 @@
-package bg.softuni.mygymshop.model.dtos;
+package bg.softuni.mygymshop.model.dtos.user;
 
 import jakarta.validation.constraints.*;
 

@@ -24,14 +24,14 @@ public class ApplicationUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return
                 userRepository.
-                        findUserEntityByEmail(username).
+                        findUserEntityByUsername(username).
                         map(this::map).
                         orElseThrow(() -> new UsernameNotFoundException("User with name " + username + " not found!"));
     }
 
     private UserDetails map(UserEntity userEntity) {
         return new AppUserDetails(
-                userEntity.getEmail(),
+                userEntity.getUsername(),
                 userEntity.getPassword(),
                 extractAuthorities(userEntity)
         ).setFullName(userEntity.getFirstName() + " " + userEntity.getLastName());

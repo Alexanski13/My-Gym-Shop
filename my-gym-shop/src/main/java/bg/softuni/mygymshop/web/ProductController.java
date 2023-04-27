@@ -1,10 +1,9 @@
 package bg.softuni.mygymshop.web;
 
-import bg.softuni.mygymshop.model.dtos.CreateProductDTO;
-import bg.softuni.mygymshop.model.dtos.ProductDetailDTO;
-import bg.softuni.mygymshop.model.dtos.ProductInventoryDTO;
+import bg.softuni.mygymshop.model.dtos.product.CreateProductDTO;
+import bg.softuni.mygymshop.model.dtos.product.ProductDetailDTO;
+import bg.softuni.mygymshop.model.dtos.product.ProductInventoryDTO;
 import bg.softuni.mygymshop.model.entities.ProductEntity;
-import bg.softuni.mygymshop.model.views.ProductDetailsViewDTO;
 import bg.softuni.mygymshop.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;

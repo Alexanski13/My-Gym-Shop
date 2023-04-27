@@ -1,8 +1,8 @@
 package bg.softuni.mygymshop.service;
 
-import bg.softuni.mygymshop.model.dtos.CreateProductDTO;
-import bg.softuni.mygymshop.model.dtos.ProductDetailDTO;
-import bg.softuni.mygymshop.model.dtos.ProductInventoryDTO;
+import bg.softuni.mygymshop.model.dtos.product.CreateProductDTO;
+import bg.softuni.mygymshop.model.dtos.product.ProductDetailDTO;
+import bg.softuni.mygymshop.model.dtos.product.ProductInventoryDTO;
 import bg.softuni.mygymshop.model.entities.CategoryEntity;
 import bg.softuni.mygymshop.model.entities.ProductEntity;
 import bg.softuni.mygymshop.model.enums.ProductCategoryType;
@@ -172,5 +172,9 @@ public class ProductService {
                     .setImageUrl(productDTO.getImageUrl());
             productRepository.saveAndFlush(product);
         }
+    }
+
+    public void saveProduct(ProductEntity product) {
+        productRepository.saveAndFlush(product);
     }
 }

@@ -1,6 +1,6 @@
 package bg.softuni.mygymshop.scheduleJob;
 
-import bg.softuni.mygymshop.model.dtos.ProductInventoryDTO;
+import bg.softuni.mygymshop.model.dtos.product.ProductInventoryDTO;
 import bg.softuni.mygymshop.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

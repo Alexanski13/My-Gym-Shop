@@ -1,6 +1,6 @@
 package bg.softuni.mygymshop.service;
 
-import bg.softuni.mygymshop.model.dtos.CreateProductDTO;
+import bg.softuni.mygymshop.model.dtos.product.CreateProductDTO;
 import bg.softuni.mygymshop.model.entities.ProductEntity;
 import bg.softuni.mygymshop.model.enums.ProductCategoryType;
 import bg.softuni.mygymshop.model.views.ProductDetailsViewDTO;

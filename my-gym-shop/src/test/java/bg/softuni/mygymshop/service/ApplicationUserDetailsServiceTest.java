@@ -48,7 +48,7 @@ public class ApplicationUserDetailsServiceTest {
         RoleEntity roleEntity = new RoleEntity();
         roleEntity.setRole(RoleType.ADMIN);
         userEntity.setRoles(Set.of(roleEntity));
-        when(mockUserRepo.findUserEntityByEmail("test@example.com")).thenReturn(Optional.of(userEntity));
+        when(mockUserRepo.findUserEntityByUsername("test@example.com")).thenReturn(Optional.of(userEntity));
 
         UserDetails userDetails = toTest.loadUserByUsername("test@example.com");
         assertNotNull(toTest);

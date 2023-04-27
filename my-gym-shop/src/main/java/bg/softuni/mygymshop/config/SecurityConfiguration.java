@@ -29,8 +29,8 @@ public class SecurityConfiguration {
                 // allow access to all static files (images, CSS, js)
                         requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().
                 // the URL-s below are available for all users - logged in and anonymous
-                        requestMatchers("/", "/users/profile", "/api/**", "/users/login-error").permitAll().
-                requestMatchers("/products/all").authenticated().
+                        requestMatchers("/", "/api/**", "/users/login-error").permitAll().
+                requestMatchers("/products/all", "/cart/**", "/users/profile").authenticated().
                 requestMatchers("/users/login", "/users/register").anonymous().
                 // only for admins
                         requestMatchers("/products/add",

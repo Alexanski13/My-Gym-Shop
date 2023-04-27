@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar}"></div>
+<h1>Shopping Cart</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cartItem : ${shoppingCart.cartItems}">
+        <td th:text="${cartItem.productName}"></td>
+        <td th:text="${cartItem.productPrice}"></td>
+        <td th:text="${cartItem.quantity}"></td>
+        <td th:text="${cartItem.productPrice * cartItem.quantity}"></td>
+        <td>
+            <form th:action="@{/cart/remove}" method="post">
+                <input type="hidden" name="productId" th:value="${cartItem.productId}">
+                <button type="submit">Remove</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<form th:action="@{/checkout}" method="post">
+    <button type="submit">Checkout</button>
+</form>
+
+<div>
+    <footer th:replace="~{fragments/footer}"></footer>
+</div>
+
+</body>
+</html>

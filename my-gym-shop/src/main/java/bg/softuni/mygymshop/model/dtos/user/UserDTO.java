@@ -1,4 +1,4 @@
-package bg.softuni.mygymshop.model.dtos;
+package bg.softuni.mygymshop.model.dtos.user;
 
 import java.util.HashSet;
 import java.util.Set;

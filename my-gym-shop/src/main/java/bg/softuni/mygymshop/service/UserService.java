@@ -1,7 +1,7 @@
 package bg.softuni.mygymshop.service;
 
-import bg.softuni.mygymshop.model.dtos.UserDTO;
-import bg.softuni.mygymshop.model.dtos.UserRegistrationDTO;
+import bg.softuni.mygymshop.model.dtos.user.UserDTO;
+import bg.softuni.mygymshop.model.dtos.user.UserRegistrationDTO;
 import bg.softuni.mygymshop.model.entities.RoleEntity;
 import bg.softuni.mygymshop.model.entities.UserEntity;
 import bg.softuni.mygymshop.model.enums.RoleType;
@@ -76,11 +76,6 @@ public class UserService {
 //
 //        successfulLoginProcessor.accept(authentication);
 
-    }
-
-    public UserEntity getUser(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(email + " was not found!"));
     }
 
     @PostConstruct

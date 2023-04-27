@@ -1,6 +1,6 @@
 package bg.softuni.mygymshop.web.rest;
 
-import bg.softuni.mygymshop.model.dtos.CommentDTO;
+import bg.softuni.mygymshop.model.dtos.comment.CommentDTO;
 import bg.softuni.mygymshop.model.entities.CommentEntity;
 import bg.softuni.mygymshop.model.entities.UserEntity;
 import bg.softuni.mygymshop.model.views.CommentView;
@@ -38,7 +38,7 @@ public class CommentRestController {
     public ResponseEntity<List<CommentView>> getCommentsProducts(@PathVariable("productId") Long productId, Principal principal) {
         UserEntity user = null;
         try {
-            user = userService.getUser(principal.getName());
+            user = userService.getUserByUsername(principal.getName());
         } catch (RuntimeException e) {
             //IGNORE
         }
@@ -82,7 +82,7 @@ public class CommentRestController {
                                                      @RequestBody CommentDTO commentDTO,
                                                      @PathVariable("productId") Long productId) {
         CommentEntity comment = commentService.createComment(commentDTO,
-                productId, userService.getUser(userDetails.getUsername()));
+                productId, userService.getUserByUsername(userDetails.getUsername()));
 
         CommentView commentView = mapToCommentView(comment);
 
@@ -95,7 +95,7 @@ public class CommentRestController {
     @DeleteMapping("/api/{productId}/comments/{commentId}")
     public ResponseEntity<CommentView> deleteComment(@PathVariable("commentId") Long commentId,
                                                      @AuthenticationPrincipal UserDetails principal) {
-        UserEntity user = userService.getUser(principal.getUsername());
+        UserEntity user = userService.getUserByUsername(principal.getUsername());
         try {
             return deleteCommentInternal(commentId, user);
         } catch (RuntimeException e) {

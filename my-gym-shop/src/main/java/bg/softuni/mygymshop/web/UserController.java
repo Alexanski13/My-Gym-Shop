@@ -1,7 +1,7 @@
 package bg.softuni.mygymshop.web;
 
-import bg.softuni.mygymshop.model.dtos.UserDTO;
-import bg.softuni.mygymshop.model.dtos.UserRegistrationDTO;
+import bg.softuni.mygymshop.model.dtos.user.UserDTO;
+import bg.softuni.mygymshop.model.dtos.user.UserRegistrationDTO;
 import bg.softuni.mygymshop.model.entities.UserEntity;
 import bg.softuni.mygymshop.model.enums.RoleType;
 import bg.softuni.mygymshop.model.views.UserProfileViewDTO;
@@ -95,7 +95,7 @@ public class UserController {
     @GetMapping("/profile")
     public String getUserProfileDetails(Principal principal, Model model) {
         String username = principal.getName();
-        UserEntity user = userService.getUser(username);
+        UserEntity user = userService.getUserByUsername(username);
 
         UserProfileViewDTO userProfileView = new UserProfileViewDTO()
                 .setUsername(user.getUsername())

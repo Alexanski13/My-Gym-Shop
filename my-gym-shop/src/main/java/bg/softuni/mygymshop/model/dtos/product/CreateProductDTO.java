@@ -1,7 +1,6 @@
-package bg.softuni.mygymshop.model.dtos;
+package bg.softuni.mygymshop.model.dtos.product;
 
 
-import bg.softuni.mygymshop.model.entities.UserEntity;
 import bg.softuni.mygymshop.model.enums.ProductCategoryType;
 import jakarta.validation.constraints.*;
 

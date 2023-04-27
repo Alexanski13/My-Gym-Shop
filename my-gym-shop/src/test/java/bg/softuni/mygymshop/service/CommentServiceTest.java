@@ -1,6 +1,6 @@
 package bg.softuni.mygymshop.service;
 
-import bg.softuni.mygymshop.model.dtos.CommentDTO;
+import bg.softuni.mygymshop.model.dtos.comment.CommentDTO;
 import bg.softuni.mygymshop.model.entities.CommentEntity;
 import bg.softuni.mygymshop.model.entities.ProductEntity;
 import bg.softuni.mygymshop.model.entities.UserEntity;
