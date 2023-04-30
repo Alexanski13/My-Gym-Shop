@@ -114,23 +114,6 @@ public class UserService {
         userRepository.save(adminUser);
     }
 
-    private void initModerator() {
-
-        var moderatorRole = userRoleRepository.
-                findUserRoleEntityByRole(RoleType.USER).orElseThrow();
-
-        var moderatorUser = new UserEntity().
-                setUsername("Moderator").
-                setPassword(passwordEncoder.encode("topsecret")).
-                setFirstName("Moderator").
-                setLastName("Moderatorov").
-                setEmail("moderator@example.com").
-                setAge(30).
-                setRoles((Set<RoleEntity>) moderatorRole);
-
-        userRepository.save(moderatorUser);
-    }
-
     private void initNormalUser() {
 
         var normalUser = new UserEntity().
@@ -165,11 +148,6 @@ public class UserService {
     }
 
     // IMPLEMENTATION FOR ROLE MANAGEMENT
-
-    public List<UserDTO> getUsers() {
-        List<UserEntity> users = userRepository.findAll();
-        return users.stream().map(user -> modelMapper.map(user, UserDTO.class)).collect(Collectors.toList());
-    }
 
     public UserDTO getUserById(Long id) {
         UserEntity user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
@@ -212,4 +190,11 @@ public class UserService {
         return modelMapper.map(user, UserDTO.class);
     }
 
+    public UserEntity getUserByActivationCode(String activationCode) {
+        return userRepository.findByActivationCode(activationCode);
+    }
+
+    public void saveUser(UserEntity user) {
+        userRepository.saveAndFlush(user);
+    }
 }

@@ -5,6 +5,7 @@ import bg.softuni.mygymshop.model.dtos.user.UserRegistrationDTO;
 import bg.softuni.mygymshop.model.entities.UserEntity;
 import bg.softuni.mygymshop.model.enums.RoleType;
 import bg.softuni.mygymshop.model.views.UserProfileViewDTO;
+import bg.softuni.mygymshop.service.EmailService;
 import bg.softuni.mygymshop.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,11 +31,15 @@ public class UserController {
 
     private final UserService userService;
 
+    private final EmailService emailService;
+
     private final SecurityContextRepository securityContextRepository;
 
     @Autowired
-    public UserController(UserService userService, SecurityContextRepository securityContextRepository) {
+    public UserController(UserService userService, EmailService emailService,
+                          SecurityContextRepository securityContextRepository) {
         this.userService = userService;
+        this.emailService = emailService;
         this.securityContextRepository = securityContextRepository;
     }
 
@@ -64,15 +69,33 @@ public class UserController {
             strategy.setContext(context);
 
             securityContextRepository.saveContext(context, request, response);
+
+            String activationCode = emailService.generateActivationCode();
+            emailService.sendRegistrationEmail(userRegistrationDTO.getUsername(), activationCode);
+
         });
 
         return "redirect:/users/login";
     }
 
-    @GetMapping("/activate?code={code}")
-    public String accountActivation(@PathVariable String code){
-        //TODO: Code switches user to Active;
-        return "activation-success";
+//    @GetMapping("/activate?code={code}")
+//    public String accountActivation(@PathVariable String code){
+//        //TODO: Code switches user to Active;
+//        return "activation-success";
+//    }
+
+    @GetMapping("/activate")
+    public String activateUser(@RequestParam("code") String activationCode) {
+        UserEntity user = userService.getUserByActivationCode(activationCode);
+
+        if (user != null) {
+            user.setActive(true);
+            user.setActivationCode(null);
+            userService.saveUser(user);
+            return "redirect:/login?activated";
+        } else {
+            return "redirect:/login?invalid";
+        }
     }
 
     @GetMapping("/login")

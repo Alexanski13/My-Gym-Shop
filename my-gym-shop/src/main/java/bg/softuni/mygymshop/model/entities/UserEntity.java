@@ -36,6 +36,11 @@ public class UserEntity {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<RoleEntity> roles;
 
+    private String activationCode;
+
+    @Column
+    private boolean active;
+
     public UserEntity() {
         this.roles = new HashSet<>();
     }
@@ -57,6 +62,24 @@ public class UserEntity {
 
     public UserEntity setId(Long id) {
         this.id = id;
+        return this;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public UserEntity setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+        return this;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public UserEntity setActive(boolean active) {
+        this.active = active;
         return this;
     }
 

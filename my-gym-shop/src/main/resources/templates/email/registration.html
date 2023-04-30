@@ -8,19 +8,18 @@
     <title>Hello</title>
 </head>
 <body>
-
 Hello, <th:block th:text="${userName}"></th:block>!
 
 <p>
     Welcome to GymNation!
     Click the link below to activate your account:
-    <th:block th:text="${activationLink}">Swollen</th:block>
+    <a th:href="@{users/activate}">
+        <th:block th:text="${activationLink}">Swollen</th:block>
+    </a>
 </p>
-
 <p>
     Best Regards,
     GymNation
 </p>
-
 </body>
 </html>

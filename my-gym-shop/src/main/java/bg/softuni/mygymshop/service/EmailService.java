@@ -31,7 +31,10 @@ public class EmailService {
             mimeMessageHelper.setFrom("gymbro@example.com");
             mimeMessageHelper.setTo(userEmail);
             mimeMessageHelper.setSubject("Greetings and salutations from GymNation!");
-            mimeMessageHelper.setText(generateEmailText(userName), true);
+
+            String activationCode = generateActivationCode();
+            String emailText = generateEmailText(userName, activationCode);
+            mimeMessageHelper.setText(emailText, true);
 
             javaMailSender.send(mimeMessageHelper.getMimeMessage());
 
@@ -40,12 +43,12 @@ public class EmailService {
         }
     }
 
-    public String generateEmailText(String userName) {
+    public String generateEmailText(String userName, String activationCode) {
         Context ctx = new Context();
         ctx.setLocale(Locale.getDefault());
         ctx.setVariable("userName", userName);
 
-        String activationLink = "http://localhost:8080/activate?code=" + generateActivationCode();
+        String activationLink = "http://localhost:8080/users/activate?code=" + activationCode;
 
         ctx.setVariable("activationLink", activationLink);
 
