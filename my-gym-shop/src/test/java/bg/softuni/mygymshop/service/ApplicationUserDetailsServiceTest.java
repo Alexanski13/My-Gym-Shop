@@ -41,18 +41,18 @@ public class ApplicationUserDetailsServiceTest {
     void testLoadUserByUsername_UserExists() {
 
         UserEntity userEntity = new UserEntity();
-        userEntity.setEmail("test@example.com");
+        userEntity.setUsername("tester");
         userEntity.setPassword("password");
         userEntity.setFirstName("John");
         userEntity.setLastName("Doe");
         RoleEntity roleEntity = new RoleEntity();
         roleEntity.setRole(RoleType.ADMIN);
         userEntity.setRoles(Set.of(roleEntity));
-        when(mockUserRepo.findUserEntityByUsername("test@example.com")).thenReturn(Optional.of(userEntity));
+        when(mockUserRepo.findUserEntityByUsername("tester")).thenReturn(Optional.of(userEntity));
 
-        UserDetails userDetails = toTest.loadUserByUsername("test@example.com");
+        UserDetails userDetails = toTest.loadUserByUsername("tester");
         assertNotNull(toTest);
-        assertEquals("test@example.com", userDetails.getUsername());
+        assertEquals("tester", userDetails.getUsername());
         assertEquals("password", userDetails.getPassword());
         assertEquals(Set.of(new SimpleGrantedAuthority("ROLE_ADMIN")), userDetails.getAuthorities());
         assertEquals("John Doe", ((AppUserDetails) userDetails).getFullName());
